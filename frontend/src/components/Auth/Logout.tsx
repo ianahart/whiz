@@ -16,6 +16,7 @@ const Logout = () => {
 
   const handleOnClick = async (e: React.MouseEvent<HTMLButtonElement>) => {
     try {
+      e.stopPropagation();
       await http.post('auth/logout/', {
         refresh_token: tokens.refresh_token,
         id: user.id,
@@ -30,7 +31,7 @@ const Logout = () => {
   };
 
   return (
-    <div>
+    <div className="logout-button-container">
       <button onClick={handleOnClick}>Logout</button>
     </div>
   );

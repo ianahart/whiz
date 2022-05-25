@@ -1,13 +1,8 @@
-import Logout from '../components/Auth/Logout';
-import { AxiosError } from 'axios';
-import { http } from '../helpers/utils';
-import { useCallback, useEffect } from 'react';
-
+import Navigation from '../components/Dashboard/Navigation';
 const Dashboard = () => {
   return (
     <div>
-      Dashboard
-      <Logout />
+      <Navigation />
     </div>
   );
 };

@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import '../styles/Home.scss';
 import '../styles/shared/Buttons.scss';
-
+import Footer from '../components/Mixed/Footer';
 const Home = () => {
   return (
     <div className="home-container">
@@ -22,6 +22,10 @@ const Home = () => {
           </li>
         </ul>
       </nav>
+      <div className="site-content">
+        <p>Home</p>
+      </div>
+      <Footer name="ShredBuddy" year={2022} />
     </div>
   );
 };

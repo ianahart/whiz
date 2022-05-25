@@ -6,7 +6,6 @@ import './styles/index.scss';
 import Home from './pages/Home';
 import Login from './pages/Login';
 import CreateAccount from './pages/CreateAccount';
-import Footer from './components/Mixed/Footer';
 import { http, retrieveTokens } from './helpers/utils';
 import { IStoreUserResponse } from './interfaces/response';
 import { UserContext } from './context/user';
@@ -69,7 +68,6 @@ const App = () => {
                 />
               </Routes>
             </div>
-            <Footer name="ShredBuddy" year={2022} />
           </div>
         </WithAxios>
       </Router>

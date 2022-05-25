@@ -53,3 +53,11 @@
     font-size: 1.5rem;
   }
 }
+
+.logout-button-container {
+  button {
+    border: none;
+    color: var(--color-text);
+    cursor: pointer;
+  }
+}
