@@ -1,0 +1,86 @@
+export interface ICreateAccountForm {
+  first_name: {
+    name: string;
+    error: string;
+    value: string;
+    placeholder: string;
+    type: string;
+  };
+  last_name: {
+    name: string;
+    error: string;
+    value: string;
+    placeholder: string;
+    type: string;
+  };
+  email: {
+    name: string;
+    error: string;
+    value: string;
+    placeholder: string;
+    type: string;
+  };
+  password: {
+    name: string;
+    error: string;
+    value: string;
+    placeholder: string;
+    type: string;
+  };
+  confirm_password: {
+    name: string;
+    error: string;
+    value: string;
+    placeholder: string;
+    type: string;
+  };
+}
+
+export interface ILoginForm {
+  email: {
+    name: string;
+    error: string;
+    value: string;
+    placeholder: string;
+    type: string;
+  };
+  password: {
+    name: string;
+    error: string;
+    value: string;
+    placeholder: string;
+    type: string;
+  };
+}
+
+export interface ICreateAccountBody {
+  first_name: string;
+  last_name: string;
+  email: string;
+  password: string;
+  confirm_password: string;
+  password_strength: string;
+}
+
+export interface IUser {
+  avatar_url: string | null;
+  email: string;
+  first_name: string;
+  id?: number | null;
+  initials: string;
+  logged_in: boolean;
+  full_name: string;
+}
+
+export interface ITokens {
+  access_token: string;
+  refresh_token: string;
+}
+
+export interface IUserContext {
+  user: IUser;
+  tokens: ITokens;
+  syncUser: (user: IUser) => void;
+  syncTokens: (tokens: ITokens) => void;
+  logout: () => void;
+}

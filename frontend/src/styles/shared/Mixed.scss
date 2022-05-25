@@ -1,0 +1,55 @@
+.form-error {
+  color: var(--color-red);
+  font-size: 0.9rem;
+}
+
+.form-control {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  flex-grow: 2;
+  margin: 0.75rem 0 0.75rem 0;
+  label {
+    font-size: 0.9rem;
+    margin-bottom: 0.25rem;
+    color: var(--color-text);
+  }
+
+  input {
+    outline: none;
+    border: none;
+    height: 35px;
+    border: 1px solid var(--color-gray);
+    border-radius: var(--border-radius-sm);
+    &:focus {
+      border-color: var(--color-primary);
+    }
+  }
+}
+
+.password-strength-meter {
+  font-size: 0.8rem;
+  margin: 0;
+  color: var(--color-text);
+}
+.password-strength-container {
+  border: 1px solid var(--color-gray);
+  height: 10px;
+  width: 150px;
+}
+.password-strength-inner {
+  height: 100%;
+}
+
+.password-visibility {
+  svg {
+    z-index: 2;
+    cursor: pointer;
+    position: absolute;
+    right: 5px;
+    bottom: 4px;
+    margin-top: 10px;
+    color: var(--color-darkgray);
+    font-size: 1.5rem;
+  }
+}

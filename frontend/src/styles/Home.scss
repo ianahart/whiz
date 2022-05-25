@@ -1,0 +1,53 @@
+.home-container {
+  background-image: url('../images//home.jpg');
+  background-size: cover;
+  background-repeat: no-repeat;
+  width: 100%;
+  min-height: 100vh;
+}
+.home-navigation {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  header {
+    h1 {
+      margin: 0;
+      font-size: 2rem;
+      font-family: 'Bebas Neue', cursive;
+      color: #fff;
+    }
+  }
+
+  padding: 1rem;
+  ul {
+    display: flex;
+    margin: 0;
+    justify-content: flex-end;
+  }
+  li {
+    text-align: center;
+    width: 80px;
+    margin: 0.5rem 1rem 0.5rem 1rem;
+    list-style-type: none;
+    &:nth-of-type(1) {
+      a {
+        color: #fff;
+      }
+    }
+
+    &:nth-of-type(2) {
+      a {
+        color: var(--color-text);
+        background: #ccccd3;
+      }
+    }
+    a {
+      &:hover {
+        opacity: 0.7;
+      }
+      display: block;
+      padding: 0.5rem 0.25rem;
+      border-radius: 20px;
+    }
+  }
+}

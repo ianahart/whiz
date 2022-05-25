@@ -1,0 +1,109 @@
+.create-account-container {
+  background-image: url('../images/register.png');
+  min-height: 100vh;
+  background-size: cover;
+  background-repeat: no-repeat;
+  flex-direction: column;
+  align-items: center;
+  display: flex;
+
+  section {
+    margin-top: 10rem;
+    width: 968px;
+    min-height: 450px;
+    flex-direction: row;
+    display: flex;
+    justify-content: center;
+  }
+}
+
+.create-account-app-contents {
+  width: 100%;
+  background-color: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(5px);
+  border-top-left-radius: var(--border-radius-sm);
+  border-bottom-left-radius: var(--border-radius-sm);
+  box-shadow: var(--box-shadow);
+
+  h2 {
+    text-align: center;
+    color: var(--color-offwhite);
+  }
+  li {
+    display: flex;
+    align-items: center;
+    svg {
+      font-size: 24px;
+      color: #1be11b;
+    }
+    p {
+      margin-left: 1rem;
+      color: var(--color-offwhite);
+    }
+  }
+}
+
+.create-account-form-container {
+  background: #fff;
+  padding: 1rem;
+  width: 100%;
+  border-top-right-radius: 8px;
+  border-bottom-right-radius: 8px;
+  box-shadow: var(--box-shadow);
+  h3 {
+    text-align: center;
+    color: var(--color-text);
+  }
+
+  form {
+    display: flex;
+    flex-direction: column;
+  }
+
+  button {
+    background-color: var(--color-primary);
+    border: none;
+    cursor: pointer;
+    color: var(--color-offwhite);
+    height: 35px;
+    width: 150px;
+    border-radius: var(--border-radius-lg);
+    transition: all 0.25s ease-in-out;
+    &:hover {
+      opacity: 0.8;
+    }
+  }
+}
+
+.create-account-button-container {
+  margin: 2rem auto;
+  display: flex;
+  flex-direction: column;
+}
+
+@media (max-width: 968px) {
+  .create-account-container {
+    section {
+      flex-direction: column;
+      width: 85%;
+      margin-right: auto;
+      margin-left: auto;
+    }
+  }
+  .create-account-app-contents {
+    margin-bottom: 1rem;
+    border-radius: var(--border-radius-sm);
+  }
+  .create-account-form-container {
+    margin-bottom: 2rem;
+    border-radius: var(--border-radius-sm);
+  }
+}
+
+@media (max-width: 600px) {
+  .create-account-container {
+    section {
+      width: 95%;
+    }
+  }
+}

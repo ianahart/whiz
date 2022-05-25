@@ -1,0 +1,33 @@
+.button-gradient {
+  background-image: linear-gradient(
+    to left bottom,
+    #9d174d,
+    #963579,
+    #7f529c,
+    #5b69b2,
+    #2f7db9,
+    #3080c0,
+    #3282c6,
+    #3485cd,
+    #7873cd,
+    #b157b5,
+    #d73286,
+    #e11d48
+  );
+}
+
+.link-button {
+  text-decoration: none;
+  list-style-type: none;
+}
+
+.button {
+  border: none;
+  border-radius: var(--border-radius-lg);
+  height: 35px;
+  transition: all 0.25s ease-in;
+  cursor: pointer;
+  &:hover {
+    opacity: 0.8;
+  }
+}
