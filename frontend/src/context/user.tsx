@@ -11,9 +11,6 @@ interface IChildren {
 const UserContextProvider = ({ children }: IChildren) => {
   const [user, setUser] = useState<IUser>(initialUserState);
   const [tokens, setTokens] = useState<ITokens>(initialTokenState);
-  const syncUser = (user: IUser) => {
-    setUser(user);
-  };
 
   const logout = () => {
     localStorage.removeItem('tokens');
@@ -34,9 +31,10 @@ const UserContextProvider = ({ children }: IChildren) => {
     <UserContext.Provider
       value={{
         user,
-        syncUser,
+        setUser,
         tokens,
         syncTokens,
+        setTokens,
         logout,
       }}
     >

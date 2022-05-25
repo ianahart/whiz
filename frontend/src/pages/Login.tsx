@@ -6,14 +6,14 @@ import '../styles/shared/Buttons.scss';
 import { ILoginForm, IUserContext } from '../interfaces';
 import Input from '../components/Inputs/Input';
 import { initialLoginFormState } from '../helpers/initialState';
-import { http, retrieveTokens } from '../helpers/utils';
+import { http, namePath } from '../helpers/utils';
 import { UserContext } from '../context/user';
 import { ILoginResponse } from '../interfaces/response';
 const Login = () => {
   const navigate = useNavigate();
   const [form, setForm] = useState(initialLoginFormState);
   const [backendError, setBackendError] = useState('');
-  const { syncUser, syncTokens, user } = useContext(UserContext) as IUserContext;
+  const { setUser, syncTokens, user } = useContext(UserContext) as IUserContext;
 
   const validateField = (name: string, value: string) => {
     setBackendError('');
@@ -50,10 +50,9 @@ const Login = () => {
         password: form.password.value,
       });
 
-      syncUser(response.data.user);
+      setUser(response.data.user);
+      localStorage.setItem('tokens', JSON.stringify(response.data.tokens));
       syncTokens(response.data.tokens);
-      if (retrieveTokens()?.access_token) {
-      }
     } catch (error: unknown | AxiosError) {
       if (error instanceof AxiosError && error.response) {
         if (error.response.status === 400) {
@@ -67,14 +66,11 @@ const Login = () => {
   };
 
   useEffect(() => {
-    if (user.full_name) {
-      const name = user.full_name
-        .split('')
-        .filter((ch) => ch !== ' ')
-        .map((ch) => ch.toLowerCase())
-        .join('');
-      console.log(`Name: ${name}`);
-      navigate(`/${name}`);
+    if (user.full_name.length) {
+      const name = namePath(user.full_name);
+      if (name) {
+        navigate(`/${name}`);
+      }
     }
   }, [navigate, user.full_name]);
 

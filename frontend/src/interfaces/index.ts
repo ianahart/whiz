@@ -80,7 +80,8 @@ export interface ITokens {
 export interface IUserContext {
   user: IUser;
   tokens: ITokens;
-  syncUser: (user: IUser) => void;
+  setUser: (user: IUser) => void;
+  setTokens: (tokens: ITokens) => void;
   syncTokens: (tokens: ITokens) => void;
   logout: () => void;
 }

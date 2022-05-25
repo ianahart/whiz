@@ -13,3 +13,11 @@ export const retrieveTokens = () => {
   }
   return tokens;
 };
+
+export const namePath = (name: string) => {
+  return name
+    .split('')
+    .filter((ch) => ch !== ' ')
+    .map((ch) => ch.toLowerCase())
+    .join('');
+};

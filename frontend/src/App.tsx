@@ -14,26 +14,23 @@ import { IUserContext } from './interfaces/';
 import Dashboard from './pages/Dashboard';
 import RequireAuth from './components/Mixed/RequireAuth';
 import RequireGuest from './components/Mixed/RequireGuest';
+import WithAxios from './helpers/WithAxios';
 const App = () => {
-  const { syncUser } = useContext(UserContext) as IUserContext;
+  const { setUser } = useContext(UserContext) as IUserContext;
   const [isLoaded, setIsLoaded] = useState(false);
   const storeUser = useCallback(async () => {
     try {
       const tokens = retrieveTokens();
-      if (!isLoaded) {
-        const response = await http.get<IStoreUserResponse>('/account/', {
-          headers: { Authorization: `Bearer ${tokens.access_token}` },
-        });
-        setIsLoaded(true);
-        syncUser(response.data.user);
-      }
+      const response = await http.get<IStoreUserResponse>('/account/', {
+        headers: { Authorization: `Bearer ${tokens.access_token}` },
+      });
+      setUser(response.data.user);
     } catch (error: unknown | AxiosError) {
       if (error instanceof AxiosError && error.response) {
-        setIsLoaded(true);
         return;
       }
     }
-  }, [syncUser, isLoaded]);
+  }, [setUser]);
 
   useEffect(() => {
     storeUser();
@@ -41,38 +38,40 @@ const App = () => {
   return (
     <div className="App">
       <Router>
-        <div className="site">
-          <div className="site-content">
-            <Routes>
-              <Route path="/" element={<Home />} />
-              <Route
-                path="/sign-in"
-                element={
-                  <RequireGuest>
-                    <Login />
-                  </RequireGuest>
-                }
-              />
-              <Route
-                path="/sign-up"
-                element={
-                  <RequireGuest>
-                    <CreateAccount />
-                  </RequireGuest>
-                }
-              />
-              <Route
-                path="/:name"
-                element={
-                  <RequireAuth>
-                    <Dashboard />
-                  </RequireAuth>
-                }
-              />
-            </Routes>
+        <WithAxios>
+          <div className="site">
+            <div className="site-content">
+              <Routes>
+                <Route path="/" element={<Home />} />
+                <Route
+                  path="/sign-in"
+                  element={
+                    <RequireGuest>
+                      <Login />
+                    </RequireGuest>
+                  }
+                />
+                <Route
+                  path="/sign-up"
+                  element={
+                    <RequireGuest>
+                      <CreateAccount />
+                    </RequireGuest>
+                  }
+                />
+                <Route
+                  path="/:name"
+                  element={
+                    <RequireAuth>
+                      <Dashboard />
+                    </RequireAuth>
+                  }
+                />
+              </Routes>
+            </div>
+            <Footer name="ShredBuddy" year={2022} />
           </div>
-          <Footer name="ShredBuddy" year={2022} />
-        </div>
+        </WithAxios>
       </Router>
     </div>
   );
