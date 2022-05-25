@@ -13,7 +13,7 @@ import { UserContext } from './context/user';
 import { IUserContext } from './interfaces/';
 import Dashboard from './pages/Dashboard';
 import RequireAuth from './components/Mixed/RequireAuth';
-
+import RequireGuest from './components/Mixed/RequireGuest';
 const App = () => {
   const { syncUser } = useContext(UserContext) as IUserContext;
   const [isLoaded, setIsLoaded] = useState(false);
@@ -45,8 +45,22 @@ const App = () => {
           <div className="site-content">
             <Routes>
               <Route path="/" element={<Home />} />
-              <Route path="/sign-in" element={<Login />} />
-              <Route path="/sign-up" element={<CreateAccount />} />
+              <Route
+                path="/sign-in"
+                element={
+                  <RequireGuest>
+                    <Login />
+                  </RequireGuest>
+                }
+              />
+              <Route
+                path="/sign-up"
+                element={
+                  <RequireGuest>
+                    <CreateAccount />
+                  </RequireGuest>
+                }
+              />
               <Route
                 path="/:name"
                 element={
