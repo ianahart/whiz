@@ -2,9 +2,10 @@ import { useState, useRef, useContext, useEffect } from 'react';
 import { BsChevronDown, BsSearch } from 'react-icons/bs';
 import { UserContext } from '../../../context/user';
 import { IUserContext } from '../../../interfaces';
-import NavItem from './NavItem';
 import '../../../styles/Navigation.scss';
 import Avatar from './Avatar';
+import MenuWrapper from './Menus/MenuWrapper';
+import More from './Menus/More';
 
 const Navigation = () => {
   const { user } = useContext(UserContext) as IUserContext;
@@ -34,22 +35,9 @@ const Navigation = () => {
   return (
     <div ref={navigationRef} className="navigation-container">
       <h2 className="nav-logo">Whiz</h2>
-      <div className="navigation-more-btn">
-        <button>More</button>
-        <BsChevronDown />
-      </div>
-
+      <More />
       <div className="navigation-left">
-        <ul>
-          <NavItem label="Spaces" />
-          <NavItem label="Recent" />
-          <NavItem label="Starred" />
-          <li>
-            <div className="navigation-create-btn">
-              <p>Create</p>
-            </div>
-          </li>
-        </ul>
+        <MenuWrapper />
       </div>
       <div className="navigation-right">
         <div className="navigation-input-container">

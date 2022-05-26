@@ -85,3 +85,8 @@ export interface IUserContext {
   syncTokens: (tokens: ITokens) => void;
   logout: () => void;
 }
+
+export interface INavigationContext {
+  activeMenuItem: string;
+  setActiveMenuItem: (activeMenuItem: string) => void;
+}
