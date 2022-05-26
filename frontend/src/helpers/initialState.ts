@@ -1,5 +1,16 @@
 import { retrieveTokens } from './utils';
 
+export const colors = [
+  { id: 1, color: '#f45cb6' },
+  { id: 2, color: '#546fbc' },
+  { id: 3, color: '#6eac0e' },
+  { id: 4, color: '#e1ad1f' },
+  { id: 5, color: '#3e61d5' },
+  { id: 6, color: '#a53745' },
+  { id: 7, color: '#aadff2' },
+  { id: 8, color: '#026963' },
+];
+
 export const initialRegisterFormState = {
   first_name: {
     name: 'first_name',

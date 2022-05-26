@@ -13,10 +13,11 @@ const Menu = ({ children, label }: INavMenuProps) => {
   const { setActiveMenuItem } = useContext(NavigationContext) as INavigationContext;
 
   const handleClickAway = useCallback((event: MouseEvent) => {
-    const target = event.target as HTMLButtonElement;
+    event.stopPropagation();
+    const target = event.target as Element;
     if (menuRef.current !== null) {
-      const children = Array.from(menuRef.current.children);
-      if (!children?.includes(target) && target.className !== 'nav-item-menu') {
+      const menuChildren = Array.from(menuRef.current.children);
+      if (!menuRef.current.contains(target)) {
         setActiveMenuItem('');
       }
     }

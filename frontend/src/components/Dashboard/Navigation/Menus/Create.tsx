@@ -3,6 +3,7 @@ import { BsChevronDown } from 'react-icons/bs';
 import { NavigationContext } from '../../../../context/navigation';
 import { INavigationContext } from '../../../../interfaces';
 import Menu from './Menu';
+import CreateDropdown from '../../Main/CreateDropdown';
 const Create = () => {
   const { activeMenuItem, setActiveMenuItem } = useContext(
     NavigationContext
@@ -14,7 +15,7 @@ const Create = () => {
       </div>
       {activeMenuItem === 'create' && (
         <Menu label="Create">
-          <p>hi im in the create menu</p>
+          <CreateDropdown />
         </Menu>
       )}
     </li>

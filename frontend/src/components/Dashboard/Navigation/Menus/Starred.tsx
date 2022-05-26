@@ -11,7 +11,7 @@ const Starred = () => {
   ) as INavigationContext;
   return (
     <li>
-      <div onClick={() => setActiveMenuItem('starred')}>
+      <div className="nav-item-trigger" onClick={() => setActiveMenuItem('starred')}>
         <p>Starred</p>
         <BsChevronDown />
       </div>

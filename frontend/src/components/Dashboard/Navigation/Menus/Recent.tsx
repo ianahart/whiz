@@ -9,7 +9,7 @@ const Recent = () => {
   ) as INavigationContext;
   return (
     <li>
-      <div onClick={() => setActiveMenuItem('recent')}>
+      <div className="nav-item-trigger" onClick={() => setActiveMenuItem('recent')}>
         <p>Recent</p>
         <BsChevronDown />
       </div>

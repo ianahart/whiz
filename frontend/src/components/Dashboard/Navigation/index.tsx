@@ -2,7 +2,7 @@ import { useState, useRef, useContext, useEffect } from 'react';
 import { BsChevronDown, BsSearch } from 'react-icons/bs';
 import { UserContext } from '../../../context/user';
 import { IUserContext } from '../../../interfaces';
-import '../../../styles/Navigation.scss';
+import '../../../styles/Navigation/Navigation.scss';
 import Avatar from './Avatar';
 import MenuWrapper from './Menus/MenuWrapper';
 import More from './Menus/More';
