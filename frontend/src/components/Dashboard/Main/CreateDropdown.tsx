@@ -1,5 +1,5 @@
 import { useEffect, useCallback, useState } from 'react';
-import { BsThreeDots } from 'react-icons/bs';
+import { BsCheck, BsThreeDots } from 'react-icons/bs';
 import { AxiosError } from 'axios';
 import { http } from '../../../helpers/utils';
 import '../../../styles/Navigation/Dropdowns/Create.scss';
@@ -40,24 +40,46 @@ const CreateDropdown = () => {
     fetchBackgrounds();
   }, [fetchBackgrounds]);
 
+  const handleSelectColor = (event: React.MouseEvent<HTMLDivElement>, color: string) => {
+    event.stopPropagation();
+    setSelectedBackground(color);
+  };
+
   return (
     <>
       <div className="create-dropdown-background">
+        {selectedBackground && selectedBackground.includes('http') ? (
+          <div className="create-dropdown-hero-background">
+            <img src={selectedBackground} alt="background of space" />
+          </div>
+        ) : (
+          <div
+            style={{ background: selectedBackground }}
+            className="create-dropdown-hero-background"
+          ></div>
+        )}
         <p className="create-dropdown-label">Background</p>
         <Backgrounds
+          selectedBackground={selectedBackground}
           backgrounds={backgrounds}
           handleSelectedBackground={handleSelectedBackground}
         />
-
         <div className="create-dropdown-colors">
           {colors.map((color) => {
             return (
-              <div
-                onClick={() => setSelectedBackground(color.color)}
-                style={{ background: color.color }}
-                key={color.id}
-                className="create-dropdown-color"
-              ></div>
+              <div className="create-dropdown-background-container-item" key={color.id}>
+                <div
+                  onClick={(e) => handleSelectColor(e, color.color)}
+                  style={{ background: color.color }}
+                  key={color.id}
+                  className="create-dropdown-color"
+                ></div>
+                {color.color === selectedBackground && (
+                  <div className="create-dropdown-background-overlay">
+                    <BsCheck />
+                  </div>
+                )}
+              </div>
             );
           })}
         </div>
@@ -67,6 +89,7 @@ const CreateDropdown = () => {
       </div>
       {isMenuOpen && (
         <CreateSubMenu
+          selectedBackground={selectedBackground}
           handleSelectedBackground={handleSelectedBackground}
           handleSetMenuIsOpen={handleSetMenuIsOpen}
         />

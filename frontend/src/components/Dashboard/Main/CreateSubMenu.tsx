@@ -8,11 +8,13 @@ import Backgrounds from './Backgrounds';
 export interface ICreateSubMenuProps {
   handleSetMenuIsOpen: (bool: boolean) => void;
   handleSelectedBackground: (src: string) => void;
+  selectedBackground: string;
 }
 
 const CreateSubMenu = ({
   handleSetMenuIsOpen,
   handleSelectedBackground,
+  selectedBackground,
 }: ICreateSubMenuProps) => {
   const menuRef = useRef<HTMLDivElement | null>(null);
   const [nextBackgroundPage, setNextBackgroundPage] = useState(2);
@@ -75,6 +77,7 @@ const CreateSubMenu = ({
       <p>Backgrounds</p>
       {isLoaded ? (
         <Backgrounds
+          selectedBackground={selectedBackground}
           handleSelectedBackground={handleSelectedBackground}
           backgrounds={backgrounds}
         />
