@@ -1,19 +1,14 @@
 import logging
 logger = logging.getLogger('django')
-from rest_framework_simplejwt.exceptions import TokenBackendError, TokenError
+from rest_framework_simplejwt.exceptions import TokenError
 from rest_framework_simplejwt.tokens import RefreshToken
-from django.core.exceptions import ObjectDoesNotExist
-from typing import Optional
-from rest_framework.response import Response
 from django.contrib.auth import hashers
-from django.db import models, DataError, DatabaseError
+from django.db import models, DatabaseError
 from rest_framework_simplejwt.backends import TokenBackend
 from django.contrib.auth.models import BaseUserManager, AbstractUser, PermissionsMixin
 from django.utils.translation import gettext_lazy as _
-from django.template import Context
 from django.utils import timezone
 from datetime import datetime, timedelta, date
-from django.contrib.auth.hashers import check_password
 
 class CustomUserManager(BaseUserManager):
 

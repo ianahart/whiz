@@ -12,16 +12,18 @@ const Menu = ({ children, label }: INavMenuProps) => {
   const menuRef = useRef<HTMLDivElement>(null);
   const { setActiveMenuItem } = useContext(NavigationContext) as INavigationContext;
 
-  const handleClickAway = useCallback((event: MouseEvent) => {
-    event.stopPropagation();
-    const target = event.target as Element;
-    if (menuRef.current !== null) {
-      const menuChildren = Array.from(menuRef.current.children);
-      if (!menuRef.current.contains(target)) {
-        setActiveMenuItem('');
+  const handleClickAway = useCallback(
+    (event: MouseEvent) => {
+      event.stopPropagation();
+      const target = event.target as Element;
+      if (menuRef.current !== null) {
+        if (!menuRef.current.contains(target)) {
+          setActiveMenuItem('');
+        }
       }
-    }
-  }, []);
+    },
+    [setActiveMenuItem]
+  );
 
   useEffect(() => {
     window.addEventListener('click', handleClickAway);

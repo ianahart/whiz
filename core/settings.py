@@ -31,6 +31,9 @@ SECRET_KEY = env('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env('DEBUG')
 
+PEXELS_KEY = env('PEXELS_KEY')
+
+
 ALLOWED_HOSTS = []
 
 
@@ -48,6 +51,7 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt.token_blacklist',
     'account',
     'authentication',
+    'space',
 ]
 
 

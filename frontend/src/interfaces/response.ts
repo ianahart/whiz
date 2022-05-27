@@ -1,4 +1,4 @@
-import { ITokens, IUser } from '.';
+import { IBackground, ITokens, IUser } from '.';
 
 export interface ILoginResponse {
   message?: string;
@@ -9,4 +9,10 @@ export interface ILoginResponse {
 export interface IStoreUserResponse {
   message?: string;
   user: IUser;
+}
+
+export interface IBackgroundResponse {
+  message?: string;
+  page: number;
+  backgrounds: IBackground[];
 }

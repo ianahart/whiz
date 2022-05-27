@@ -1,3 +1,9 @@
+export interface IBackground {
+  id: number;
+  src: string;
+  thumbnail: string;
+}
+
 export interface ICreateAccountForm {
   first_name: {
     name: string;

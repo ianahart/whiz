@@ -1,37 +1,54 @@
-import { useRef, useEffect, useCallback, useState } from 'react';
+import { useEffect, useCallback, useState } from 'react';
 import { BsThreeDots } from 'react-icons/bs';
+import { AxiosError } from 'axios';
+import { http } from '../../../helpers/utils';
 import '../../../styles/Navigation/Dropdowns/Create.scss';
 import { colors } from '../../../helpers/initialState';
+import { IBackgroundResponse } from '../../../interfaces/response';
+import { IBackground } from '../../../interfaces';
+import CreateSubMenu from './CreateSubMenu';
+import Backgrounds from './Backgrounds';
 
 const CreateDropdown = () => {
-  const menuRef = useRef<HTMLDivElement | null>(null);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [selectedBackground, setSelectedBackground] = useState('');
-  const handleClickAway = useCallback((event: MouseEvent) => {
-    event.stopPropagation();
-    const target = event.target as Element;
-    if (menuRef.current !== null) {
-      const menuChildren = Array.from(menuRef.current.children);
-      if (!menuRef.current.contains(target)) {
-        setIsMenuOpen(false);
-      }
-    }
-  }, []);
+  const [backgrounds, setBackgrounds] = useState<IBackground[]>([]);
+
+  const handleSetMenuIsOpen = (bool: boolean) => {
+    setIsMenuOpen(bool);
+  };
+
+  const handleSelectedBackground = (src: string) => setSelectedBackground(src);
 
   const toggleSubMenu = (event: React.MouseEvent<HTMLDivElement>) => {
     event.stopPropagation();
     setIsMenuOpen((prevState) => !prevState);
   };
+  const fetchBackgrounds = useCallback(async () => {
+    try {
+      const response = await http.get<IBackgroundResponse>('/background/');
+      setBackgrounds((prevState) => [...prevState, ...response.data.backgrounds]);
+    } catch (error: unknown | AxiosError) {
+      if (error instanceof AxiosError && error.response) {
+        let { errors } = error.response.data;
+        errors = Object.entries(errors);
+      }
+    }
+  }, []);
 
   useEffect(() => {
-    window.addEventListener('click', handleClickAway);
-    return () => window.removeEventListener('click', handleClickAway);
-  }, [handleClickAway]);
+    fetchBackgrounds();
+  }, [fetchBackgrounds]);
 
   return (
     <>
       <div className="create-dropdown-background">
         <p className="create-dropdown-label">Background</p>
+        <Backgrounds
+          backgrounds={backgrounds}
+          handleSelectedBackground={handleSelectedBackground}
+        />
+
         <div className="create-dropdown-colors">
           {colors.map((color) => {
             return (
@@ -49,9 +66,10 @@ const CreateDropdown = () => {
         </div>
       </div>
       {isMenuOpen && (
-        <div ref={menuRef} className="create-dropdown-sub-menu">
-          <p>create sub menu</p>
-        </div>
+        <CreateSubMenu
+          handleSelectedBackground={handleSelectedBackground}
+          handleSetMenuIsOpen={handleSetMenuIsOpen}
+        />
       )}
     </>
   );
