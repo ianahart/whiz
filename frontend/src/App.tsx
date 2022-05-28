@@ -1,4 +1,4 @@
-import { useCallback, useContext, useEffect, useState } from 'react';
+import { useCallback, useContext, useEffect } from 'react';
 import { AxiosError } from 'axios';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import './App.css';
@@ -14,9 +14,9 @@ import Dashboard from './pages/Dashboard';
 import RequireAuth from './components/Mixed/RequireAuth';
 import RequireGuest from './components/Mixed/RequireGuest';
 import WithAxios from './helpers/WithAxios';
+import Space from './pages/Space';
 const App = () => {
   const { setUser } = useContext(UserContext) as IUserContext;
-  const [isLoaded, setIsLoaded] = useState(false);
   const storeUser = useCallback(async () => {
     try {
       const tokens = retrieveTokens();
@@ -63,6 +63,15 @@ const App = () => {
                   element={
                     <RequireAuth>
                       <Dashboard />
+                    </RequireAuth>
+                  }
+                />
+
+                <Route
+                  path="spaces/:id/:title"
+                  element={
+                    <RequireAuth>
+                      <Space />
                     </RequireAuth>
                   }
                 />

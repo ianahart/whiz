@@ -2,9 +2,10 @@ import { BsCheck } from 'react-icons/bs';
 import { IBackground } from '../../../interfaces';
 
 interface IBackgroundProps {
-  handleSelectedBackground: (src: string) => void;
   backgrounds: IBackground[];
-  selectedBackground: string;
+
+  handleSelectedBackground: (background: string, thumbnail: string) => void;
+  selectedBackground: { background: string; thumbnail: string };
 }
 
 const Backgrounds = ({
@@ -19,11 +20,11 @@ const Backgrounds = ({
           <div key={id} className="create-dropdown-background-container-item">
             <img
               alt="background"
-              onClick={() => handleSelectedBackground(src)}
+              onClick={() => handleSelectedBackground(src, thumbnail)}
               key={id}
               src={thumbnail}
             />
-            {src === selectedBackground && (
+            {src === selectedBackground.background && (
               <div className="create-dropdown-background-overlay">
                 <BsCheck />
               </div>

@@ -1,12 +1,45 @@
 from django.db import models
 from django.utils import timezone
-
+from account.models import CustomUser
 # Create your models here.
 
 
 class SpaceManager(models.Manager):
-    pass
 
+    def retreive(self, pk: int, title: str):
+        space = Space.objects.all().filter(
+            pk=pk
+        ).filter(
+            title=title
+        ).first()
+
+        return space
+
+    def space_by_title(self, title: str):
+        count = Space.objects.all().filter(title=title).count()
+        return True if count > 0 else False
+
+    def create(self, data: dict[str, str], user: CustomUser):
+        space = self.model()
+
+        if self.space_by_title(data['title']):
+            return None
+
+        if 'https://' in data['background']:
+            space.thumbnail = data['thumbnail']
+            space.background = data['background']
+            space.has_background = True
+        else:
+            space.color = data['background']
+            space.has_background = False
+
+        space.title = data['title']
+        space.user = user
+
+        space.save()
+        space.refresh_from_db()
+
+        return space
 
 
 class Space(models.Model):
@@ -16,7 +49,8 @@ class Space(models.Model):
     updated_at = models.DateTimeField(default=timezone.now)
     title = models.CharField(max_length=125)
     color = models.CharField(max_length=125, blank=True, null=True)
-    background = models.URLField(blank=True, null=True)
+    background = models.URLField(blank=True, null=True,)
+    thumbnail = models.URLField(blank=True, null=True,)
     has_background = models.BooleanField(default=False)
     user = models.ForeignKey(
         'account.CustomUser',
@@ -26,6 +60,3 @@ class Space(models.Model):
 
     def __str__(self):
         return self.title
-
-
-

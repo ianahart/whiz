@@ -4,6 +4,24 @@ export interface IBackground {
   thumbnail: string;
 }
 
+export interface ISpaceMin {
+  id: number | null;
+  title: string;
+  color: string | null;
+  background: string | null;
+  has_background: boolean;
+  thumbnail: string | null;
+}
+
+export interface ISpaceFull {
+  id: number | null;
+  title: string;
+  color: string | null;
+  background: string | null;
+  has_background: boolean;
+  thumbnail: string | null;
+}
+
 export interface ICreateAccountForm {
   first_name: {
     name: string;
@@ -95,4 +113,9 @@ export interface IUserContext {
 export interface INavigationContext {
   activeMenuItem: string;
   setActiveMenuItem: (activeMenuItem: string) => void;
+}
+
+export interface ISpaceContext {
+  space: ISpaceFull;
+  setSpace: (space: ISpaceFull) => void;
 }

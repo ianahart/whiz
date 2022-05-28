@@ -1,5 +1,7 @@
 from django.urls import path
 from space import views
 urlpatterns = [
-    path('background/', views.RetreiveBackgroundAPIView.as_view())
+    path('spaces/background/', views.RetreiveBackgroundAPIView.as_view()),
+    path('spaces/', views.ListCreateAPIView.as_view()),
+    path('spaces/<int:pk>/', views.RetreiveAPIView.as_view())
 ]

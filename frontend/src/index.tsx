@@ -4,12 +4,15 @@ import './index.css';
 import App from './App';
 import UserContextProvider from './context/user';
 import NavigationContextProvider from './context/navigation';
+import SpaceContextProvider from './context/space';
 
 ReactDOM.render(
   <React.StrictMode>
     <UserContextProvider>
       <NavigationContextProvider>
-        <App />
+        <SpaceContextProvider>
+          <App />
+        </SpaceContextProvider>
       </NavigationContextProvider>
     </UserContextProvider>
   </React.StrictMode>,

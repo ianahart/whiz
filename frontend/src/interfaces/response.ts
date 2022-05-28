@@ -1,4 +1,8 @@
-import { IBackground, ITokens, IUser } from '.';
+import { IBackground, ISpaceFull, ISpaceMin, ITokens, IUser } from '.';
+
+export interface ICreateSpaceResponse {
+  space: ISpaceMin;
+}
 
 export interface ILoginResponse {
   message?: string;
@@ -15,4 +19,9 @@ export interface IBackgroundResponse {
   message?: string;
   page: number;
   backgrounds: IBackground[];
+}
+
+export interface IRetreiveSpaceResponse {
+  message?: string;
+  space: ISpaceFull;
 }

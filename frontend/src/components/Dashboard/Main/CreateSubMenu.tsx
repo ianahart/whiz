@@ -7,8 +7,8 @@ import { http } from '../../../helpers/utils';
 import Backgrounds from './Backgrounds';
 export interface ICreateSubMenuProps {
   handleSetMenuIsOpen: (bool: boolean) => void;
-  handleSelectedBackground: (src: string) => void;
-  selectedBackground: string;
+  handleSelectedBackground: (background: string, thumbnail: string) => void;
+  selectedBackground: { thumbnail: string; background: string };
 }
 
 const CreateSubMenu = ({
@@ -41,7 +41,7 @@ const CreateSubMenu = ({
   const fetchBackgrounds = useCallback(async () => {
     try {
       setIsLoaded(false);
-      const response = await http.get<IBackgroundResponse>(`/background/?page=2`);
+      const response = await http.get<IBackgroundResponse>(`/spaces/background/?page=2`);
       setNextBackgroundPage(response.data.page);
       setBackgrounds((prevState) => [...prevState, ...response.data.backgrounds]);
       setIsLoaded(true);
@@ -56,7 +56,7 @@ const CreateSubMenu = ({
     try {
       setIsLoaded(false);
       const response = await http.get<IBackgroundResponse>(
-        `/background/?page=${nextBackgroundPage}`
+        `/spaces/background/?page=${nextBackgroundPage}`
       );
       setBackgrounds((prevState) => [...prevState, ...response.data.backgrounds]);
       setNextBackgroundPage(response.data.page);

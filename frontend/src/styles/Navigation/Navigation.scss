@@ -4,6 +4,7 @@
   align-items: center;
   background: var(--color-primary);
   width: 100%;
+  padding: 0.1rem;
 }
 
 .nav-item-menu {
@@ -59,6 +60,7 @@
     display: flex;
     justify-content: space-around;
     align-items: center;
+    margin: 0;
   }
   li {
     display: flex;
@@ -135,9 +137,11 @@
 
 .navigation-create-btn {
   background-color: rgba(0, 0, 0, 0.4);
-  margin: 0;
   padding: 0.5rem;
   border-radius: var(--border-radius-sm);
+  p {
+    margin: 0;
+  }
 }
 
 .navigation-right {

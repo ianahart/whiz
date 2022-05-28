@@ -11,6 +11,15 @@ export const colors = [
   { id: 8, color: '#026963' },
 ];
 
+export const initialSpaceState = {
+  id: null,
+  title: '',
+  color: '',
+  background: '',
+  thumbnail: '',
+  has_background: false,
+};
+
 export const initialRegisterFormState = {
   first_name: {
     name: 'first_name',
