@@ -40,6 +40,31 @@ class RetreiveAPIView(APIView):
 class ListCreateAPIView(APIView):
     permission_classes = [IsAuthenticated, ]
 
+    def get(self, request):
+        try:
+
+            if 'page' not in request.query_params:
+                raise ObjectDoesNotExist('Malformed url')
+
+            spaces = Space.objects.retreive_all(
+                request.user, request.query_params['page'])
+
+
+            serializer = SpaceSerializer(spaces['spaces'], many=True)
+
+            return Response({
+                'message': 'success',
+                'spaces': serializer.data,
+                'has_next': spaces['next_page'],
+                'page': spaces['page']
+            }, status=status.HTTP_200_OK)
+
+        except ObjectDoesNotExist as e:
+            print(e)
+            return Response({
+                            'errors': str(e)
+                            }, status.HTTP_404_NOT_FOUND)
+
     def post(self, request):
         try:
             if len(request.data['title']) > 125 or len(request.data['background']) == 0:

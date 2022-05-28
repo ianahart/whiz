@@ -25,3 +25,10 @@ export interface IRetreiveSpaceResponse {
   message?: string;
   space: ISpaceFull;
 }
+
+export interface ISpacesDropdownResponse {
+  message?: string;
+  page: number;
+  has_next: boolean;
+  spaces: ISpaceMin[];
+}

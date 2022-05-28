@@ -3,6 +3,7 @@ import { useContext, useState } from 'react';
 import Menu from './Menu';
 import { NavigationContext } from '../../../../context/navigation';
 import { INavigationContext } from '../../../../interfaces';
+import SpacesDropdown from '../../Main/SpacesDropdown';
 
 const Spaces = () => {
   const { activeMenuItem, setActiveMenuItem } = useContext(
@@ -16,7 +17,7 @@ const Spaces = () => {
       </div>
       {activeMenuItem === 'spaces' && (
         <Menu label="Spaces">
-          <p>hi im in the menu</p>
+          <SpacesDropdown />
         </Menu>
       )}
     </li>

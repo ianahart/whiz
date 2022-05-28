@@ -1,10 +1,22 @@
 from django.db import models
+from django.core.paginator import Paginator
 from django.utils import timezone
 from account.models import CustomUser
-# Create your models here.
 
 
 class SpaceManager(models.Manager):
+
+    def retreive_all(self, user: CustomUser, page: int):
+        objects = Space.objects.order_by('-id').all().filter(user_id=user.pk)
+
+        p = Paginator(objects, 3)
+
+        next_page = int(page) + 1
+        cur_page = p.page(next_page)
+
+        spaces = cur_page.object_list
+
+        return {'page': next_page, 'next_page': cur_page.has_next(), 'spaces': spaces}
 
     def retreive(self, pk: int, title: str):
         space = Space.objects.all().filter(
