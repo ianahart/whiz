@@ -1,11 +1,13 @@
 import { useEffect, useContext, useState } from 'react';
 import { AxiosError } from 'axios';
 import { UserContext } from '../../context/user';
-import { IUserContext } from '../../interfaces';
+import { ISpaceContext, IUserContext } from '../../interfaces';
 import { http } from '../../helpers/utils';
-
+import { initialSpaceState } from '../../helpers/initialState';
+import { SpaceContext } from '../../context/space';
 const Logout = () => {
   const { user, tokens, logout } = useContext(UserContext) as IUserContext;
+  const { setSpace, setLists } = useContext(SpaceContext) as ISpaceContext;
   const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
@@ -21,6 +23,8 @@ const Logout = () => {
         refresh_token: tokens.refresh_token,
         id: user.id,
       });
+      setSpace(initialSpaceState);
+      setLists([]);
       setIsLoaded(true);
     } catch (error: unknown | AxiosError) {
       if (error instanceof AxiosError && error.response) {
