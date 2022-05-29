@@ -43,6 +43,12 @@ class ListManager(models.Manager):
 
         return list
 
+    def update(self, data, pk: int):
+        list = List.objects.get(pk=pk)
+        if list is not None:
+            list.title = data['title']
+            list.save()
+
 
 class List(models.Model):
 

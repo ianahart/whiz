@@ -3,6 +3,18 @@ from rest_framework import serializers
 from list.models import List
 
 
+class UpdateListSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = List
+        fields = ('title', )
+
+    def validate_title(self, value):
+        if len(value) == 0 or len(value) > 75:
+            raise serializers.ValidationError(
+                'List title has a maximum of 75 characters.')
+        return value
+
+
 class ListSerializer(serializers.ModelSerializer):
     class Meta:
         model = List

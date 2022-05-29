@@ -11,7 +11,7 @@ from space.serializers import UpdateSpaceSerializer, CreateSpaceSerializer, Spac
 from account.permissions import AccountPermission
 
 
-class RetreiveAPIView(APIView):
+class DetailAPIView(APIView):
     permission_classes = [IsAuthenticated, AccountPermission, ]
 
     def patch(self, request, pk=None):

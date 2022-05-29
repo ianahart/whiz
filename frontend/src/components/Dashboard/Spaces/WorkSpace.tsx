@@ -13,12 +13,11 @@ import Lists from './Lists';
 const WorkSpace = () => {
   const navigate = useNavigate();
   const { user } = useContext(UserContext) as IUserContext;
-  const { space, updateListTitle, addList } = useContext(SpaceContext) as ISpaceContext;
+  const { space, updateTitle, addList } = useContext(SpaceContext) as ISpaceContext;
   const [isAddListOpen, setIsAddListOpen] = useState(false);
   const [listTitle, setListTitle] = useState('');
   const [workSpaceError, setWorkSpaceError] = useState('');
-  const [isListTitleEditing, setIsListTitleEditing] = useState(false);
-  const [listTitleError, setListTitleError] = useState('');
+  const [isTitleEditing, setIsTitleEditing] = useState(false);
 
   const handleOnChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setListTitle(event.target.value);
@@ -29,12 +28,12 @@ const WorkSpace = () => {
       if (space.title === event.target.value) {
         return;
       }
-      updateListTitle(event.target.value);
+      updateTitle(event.target.value);
       const response = await http.patch(`/spaces/${space.id}/`, {
         title: event.target.value,
       });
 
-      setIsListTitleEditing(false);
+      setIsTitleEditing(false);
       navigate(`/spaces/${space.id}/${event.target.value}`);
     } catch (error: unknown | AxiosError) {
       if (error instanceof AxiosError && error.response) {
@@ -89,10 +88,10 @@ const WorkSpace = () => {
           </>
         )}
         <div className="workspace-space-title">
-          {!isListTitleEditing && (
-            <h1 onClick={() => setIsListTitleEditing(true)}>{space.title}</h1>
+          {!isTitleEditing && (
+            <h1 onClick={() => setIsTitleEditing(true)}>{space.title}</h1>
           )}
-          {isListTitleEditing && (
+          {isTitleEditing && (
             <div className="workspace-space-title-input">
               <input onBlur={editTitle} type="text" />
             </div>

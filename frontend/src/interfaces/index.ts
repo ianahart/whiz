@@ -128,5 +128,6 @@ export interface ISpaceContext {
   addList: (list: IList) => void;
   lists: IList[];
   setLists: (lists: IList[]) => void;
-  updateListTitle: (title: string) => void;
+  updateTitle: (title: string) => void;
+  updateListTitle: (title: string, id: number) => void;
 }

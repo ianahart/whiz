@@ -16,13 +16,20 @@ const SpaceContextProvider = ({ children }: IChildren) => {
     setLists((prevState) => [...prevState, list]);
   };
 
-  const updateListTitle = (title: string) => {
+  const updateTitle = (title: string) => {
     setSpace((prevState) => ({ ...prevState, title }));
+  };
+
+  const updateListTitle = (title: string, id: number) => {
+    const updated = lists.map((list) => {
+      return list.id === id ? { ...list, title } : list;
+    });
+    setLists(updated);
   };
 
   return (
     <SpaceContext.Provider
-      value={{ updateListTitle, setLists, lists, addList, setSpace, space }}
+      value={{ updateListTitle, updateTitle, setLists, lists, addList, setSpace, space }}
     >
       {children}
     </SpaceContext.Provider>
