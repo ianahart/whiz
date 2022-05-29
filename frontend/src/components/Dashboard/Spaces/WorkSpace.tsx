@@ -37,7 +37,7 @@ const WorkSpace = () => {
       navigate(`/spaces/${space.id}/${event.target.value}`);
     } catch (error: unknown | AxiosError) {
       if (error instanceof AxiosError && error.response) {
-        console.log(error.response);
+        return;
       }
     }
   };
