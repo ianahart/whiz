@@ -1,14 +1,16 @@
 .workspace-add-list-container {
   margin: 1rem;
   display: flex;
-  flex-direction: column;
-  align-items: start;
+  align-items: center;
+  flex-direction: row-reverse;
+  justify-content: space-between;
   position: relative;
   z-index: 2;
 }
 
 .workspace-error {
   font-size: 0.85rem;
+  color: var(--color-text-light);
 }
 
 .workspace-header {
@@ -17,6 +19,7 @@
 
 .workspace-space-title {
   font-size: 1.1rem;
+  cursor: pointer;
 }
 
 .workspace-space-title {
@@ -98,6 +101,15 @@
     top: -50px;
   }
   100% {
-    top: 0;
+    top: 0x;
+  }
+}
+
+.workspace-space-title-input {
+  input {
+    border-radius: var(--border-radius-sm);
+    height: 35px;
+    border: none;
+    color: var(--color-text-light);
   }
 }

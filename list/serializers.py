@@ -15,7 +15,9 @@ class CreateListSerializer(serializers.ModelSerializer):
         fields = ('title', 'space', 'user', )
 
     def validate_title(self, value):
-        if (len(value) > 75):
+        if len(value) > 75:
             raise serializers.ValidationError(
                 'List title must be maximum 75 characters.')
+        if len(value.strip()) == 0:
+            raise serializers.ValidationError('Please provide a list title.')
         return value

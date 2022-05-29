@@ -18,6 +18,15 @@ class SpaceManager(models.Manager):
 
         return {'page': next_page, 'next_page': cur_page.has_next(), 'spaces': spaces}
 
+    def update(self, data: dict[str, str], pk: int):
+        space = Space.objects.filter(
+            pk=pk
+        ).first()
+
+        if space is not None:
+            space.title = data['title']
+            space.save()
+
     def retreive(self, user: int, pk: int, title: str):
         space = Space.objects.all().filter(
             user_id=user
@@ -27,6 +36,8 @@ class SpaceManager(models.Manager):
             title=title
         ).first()
 
+        if space is None:
+            return None
         return {'space': space, 'lists': space.list_spaces.all()}
 
     def space_by_title(self, user: int, title: str):

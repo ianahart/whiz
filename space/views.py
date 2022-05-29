@@ -7,12 +7,30 @@ from rest_framework.permissions import IsAuthenticated
 from list.serializers import ListSerializer
 from space.models import Space
 from .services import Pexels
-from space.serializers import CreateSpaceSerializer, SpaceSerializer
+from space.serializers import UpdateSpaceSerializer, CreateSpaceSerializer, SpaceSerializer
 from account.permissions import AccountPermission
 
 
 class RetreiveAPIView(APIView):
     permission_classes = [IsAuthenticated, AccountPermission, ]
+
+    def patch(self, request, pk=None):
+        try:
+            exists = Space.objects.get(pk=pk)
+            self.check_object_permissions(request, exists.user)
+
+            serializer = UpdateSpaceSerializer(data=request.data)
+            if serializer.is_valid():
+                Space.objects.update(data=serializer.data, pk=pk)
+                return Response({
+                                'message': 'success'
+                                })
+            else:
+                raise BadRequest
+        except (Exception, BadRequest, ):
+            return Response({
+                            'message': 'something went wrong.'
+                            }, status=status.HTTP_400_BAD_REQUEST)
 
     def get(self, request, pk=None):
 
@@ -26,7 +44,8 @@ class RetreiveAPIView(APIView):
             space = Space.objects.retreive(
                 user=request.user.id,
                 pk=pk, title=request.query_params['title'])
-
+            if space is None:
+                raise ObjectDoesNotExist
             space_serializer = SpaceSerializer(space['space'])
             list_serializer = ListSerializer(space['lists'], many=True)
             return Response({
