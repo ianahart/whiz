@@ -11,7 +11,6 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 
 
-
 import environ
 import os
 from datetime import timedelta
@@ -22,7 +21,6 @@ environ.Env.read_env()
 
 
 BASE_DIR = Path(__file__).resolve().parent.parent
-
 
 
 # SECURITY WARNING: keep the secret key used in production secret!
@@ -52,20 +50,21 @@ INSTALLED_APPS = [
     'account',
     'authentication',
     'space',
+    'list',
 ]
 
 
 AUTH_USER_MODEL = 'account.CustomUser'
 AUTHENTICATION_BACKENDS = (
     'account.backends.EmailBackend',
-    )
+)
 
 SIMPLE_JWT = {
-        'ACCESS_TOKEN_LIFETIME': timedelta(minutes=0),
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=0),
     'REFRESH_TOKEN_LIFETIME': timedelta(days=14),
 
- #   'ACCESS_TOKEN_LIFETIME': timedelta(minutes=5),
-  #  'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
+    #   'ACCESS_TOKEN_LIFETIME': timedelta(minutes=5),
+    #  'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
     'ROTATE_REFRESH_TOKENS': True,
     'BLACKLIST_AFTER_ROTATION': True,
     'UPDATE_LAST_LOGIN': False,
@@ -93,8 +92,6 @@ SIMPLE_JWT = {
 }
 
 
-
-
 SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': timedelta(days=7),
 }
@@ -114,7 +111,6 @@ REST_FRAMEWORK = {
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     )
 }
-
 
 
 MIDDLEWARE = [
@@ -207,17 +203,17 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
-        'formatters':{
-            'verbose': {
-                'format': '%(levelname)s %(asctime)s %(lineno)s %(filename)s %(module)s %(process)d %(thread)d %(message)s'
+    'formatters': {
+        'verbose': {
+            'format': '%(levelname)s %(asctime)s %(lineno)s %(filename)s %(module)s %(process)d %(thread)d %(message)s'
         },
-         'simple': {
+        'simple': {
             'format': '%(levelname)s %(message)s'
         },
     },
 
     'handlers': {
-            'console': {
+        'console': {
             'level': 'INFO',
             'class': 'logging.StreamHandler',
             'formatter': 'verbose'
@@ -225,9 +221,9 @@ LOGGING = {
         'file': {
             'level': 'ERROR',
             'class': 'logging.handlers.RotatingFileHandler',
-            'filename': os.path.join(BASE_DIR,'logs/log_file1.log'),
+            'filename': os.path.join(BASE_DIR, 'logs/log_file1.log'),
             'formatter': 'verbose',
-            'maxBytes': 1024*1024*5, # 5 MB
+            'maxBytes': 1024*1024*5,  # 5 MB
             'backupCount': 5,
         },
     },
@@ -244,10 +240,9 @@ if DEBUG == 'True':
     # make all loggers use the console.
     for logger in LOGGING['loggers']:
         LOGGING['loggers'][logger]['handlers'] = ['console']
-elif DEBUG== 'False':
-    ALLOWED_HOSTS = os.getenv("DJANGO_ALLOWED_HOSTS", "127.0.0.1,localhost").split(",")
+elif DEBUG == 'False':
+    ALLOWED_HOSTS = os.getenv("DJANGO_ALLOWED_HOSTS",
+                              "127.0.0.1,localhost").split(",")
 #    ALLOWED_HOSTS = ['localhost', '127.0.0.1']
     for logger in LOGGING['loggers']:
         LOGGING['loggers'][logger]['handlers'] = ['file']
-
-

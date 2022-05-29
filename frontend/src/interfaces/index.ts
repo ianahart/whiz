@@ -1,3 +1,10 @@
+export interface IList {
+  id: number;
+  space: number;
+  title: string;
+  user: number;
+}
+
 export interface IBackground {
   id: number;
   src: string;
@@ -118,4 +125,7 @@ export interface INavigationContext {
 export interface ISpaceContext {
   space: ISpaceFull;
   setSpace: (space: ISpaceFull) => void;
+  addList: (list: IList) => void;
+  lists: IList[];
+  setLists: (lists: IList[]) => void;
 }

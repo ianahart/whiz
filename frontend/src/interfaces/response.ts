@@ -1,4 +1,8 @@
-import { IBackground, ISpaceFull, ISpaceMin, ITokens, IUser } from '.';
+import { IBackground, IList, ISpaceFull, ISpaceMin, ITokens, IUser } from '.';
+
+export interface ICreateListResponse {
+  list: IList;
+}
 
 export interface ICreateSpaceResponse {
   space: ISpaceMin;
@@ -24,6 +28,7 @@ export interface IBackgroundResponse {
 export interface IRetreiveSpaceResponse {
   message?: string;
   space: ISpaceFull;
+  lists: IList[];
 }
 
 export interface ISpacesDropdownResponse {

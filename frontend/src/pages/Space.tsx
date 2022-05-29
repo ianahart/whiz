@@ -8,10 +8,11 @@ import '../styles/Space.scss';
 import { IRetreiveSpaceResponse } from '../interfaces/response';
 import { SpaceContext } from '../context/space';
 import { ISpaceContext } from '../interfaces';
+import WorkSpace from '../components/Dashboard/Spaces/WorkSpace';
 
 const Space = () => {
   const params = useParams();
-  const { setSpace, space } = useContext(SpaceContext) as ISpaceContext;
+  const { setSpace, space, setLists } = useContext(SpaceContext) as ISpaceContext;
 
   const fetchSpace = useCallback(async () => {
     try {
@@ -22,12 +23,13 @@ const Space = () => {
         `/spaces/${parseInt(params.id)}/?title=${params.title}`
       );
       setSpace(response.data.space);
+      setLists(response.data.lists);
     } catch (error: unknown | AxiosError) {
       if (error instanceof AxiosError && error.response) {
         const { errors } = error.response.data;
       }
     }
-  }, [params.id, params.title, setSpace]);
+  }, [params.id, params.title, setSpace, setLists]);
 
   useEffect(() => {
     fetchSpace();
@@ -49,7 +51,7 @@ const Space = () => {
   return (
     <div style={background()} className="space-container">
       <Navigation />
-      Space
+      <WorkSpace />
     </div>
   );
 };

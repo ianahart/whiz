@@ -18,23 +18,29 @@ class SpaceManager(models.Manager):
 
         return {'page': next_page, 'next_page': cur_page.has_next(), 'spaces': spaces}
 
-    def retreive(self, pk: int, title: str):
+    def retreive(self, user: int, pk: int, title: str):
         space = Space.objects.all().filter(
+            user_id=user
+        ).filter(
             pk=pk
         ).filter(
             title=title
         ).first()
 
-        return space
+        return {'space': space, 'lists': space.list_spaces.all()}
 
-    def space_by_title(self, title: str):
-        count = Space.objects.all().filter(title=title).count()
+    def space_by_title(self, user: int, title: str):
+        count = Space.objects.all().filter(
+            user_id=user
+        ).filter(
+            title=title
+        ).count()
         return True if count > 0 else False
 
-    def create(self, data: dict[str, str], user: CustomUser):
+    def create(self, data: dict[str, str], user):
         space = self.model()
 
-        if self.space_by_title(data['title']):
+        if self.space_by_title(user.id, data['title']):
             return None
 
         if 'https://' in data['background']:

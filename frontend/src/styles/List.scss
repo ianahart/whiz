@@ -1,0 +1,38 @@
+.lists-container {
+  display: flex;
+  overflow-x: auto;
+}
+
+.list-container {
+  background: #ebecf0;
+  border-radius: var(--border-radius-sm);
+  margin: 1rem;
+  box-shadow: var(--box-shadow);
+  border: 1px solid #e3e3e4;
+  min-width: 250px;
+  min-height: 200px;
+}
+
+.list-title {
+  padding: 0.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  p {
+    text-align: center;
+  }
+  svg {
+    cursor: pointer;
+    color: var(--color-text-light);
+  }
+}
+
+.list-add-card-trigger {
+  display: flex;
+  color: var(--color-text-light);
+  cursor: pointer;
+  align-items: center;
+  svg {
+    margin: 0 1rem;
+  }
+}

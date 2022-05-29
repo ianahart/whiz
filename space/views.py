@@ -4,6 +4,7 @@ from rest_framework.views import APIView
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
+from list.serializers import ListSerializer
 from space.models import Space
 from .services import Pexels
 from space.serializers import CreateSpaceSerializer, SpaceSerializer
@@ -23,13 +24,15 @@ class RetreiveAPIView(APIView):
                 raise ObjectDoesNotExist
 
             space = Space.objects.retreive(
+                user=request.user.id,
                 pk=pk, title=request.query_params['title'])
 
-            serializer = SpaceSerializer(space)
-
+            space_serializer = SpaceSerializer(space['space'])
+            list_serializer = ListSerializer(space['lists'], many=True)
             return Response({
                 'message': 'success',
-                'space': serializer.data
+                'space': space_serializer.data,
+                'lists': list_serializer.data
             }, status.HTTP_200_OK)
         except ObjectDoesNotExist:
             return Response({
@@ -49,7 +52,6 @@ class ListCreateAPIView(APIView):
             spaces = Space.objects.retreive_all(
                 request.user, request.query_params['page'])
 
-
             serializer = SpaceSerializer(spaces['spaces'], many=True)
 
             return Response({
@@ -60,7 +62,6 @@ class ListCreateAPIView(APIView):
             }, status=status.HTTP_200_OK)
 
         except ObjectDoesNotExist as e:
-            print(e)
             return Response({
                             'errors': str(e)
                             }, status.HTTP_404_NOT_FOUND)
@@ -90,7 +91,6 @@ class ListCreateAPIView(APIView):
                 }, status=status.HTTP_400_BAD_REQUEST)
 
         except BadRequest as e:
-            print(e)
             return Response({
                 'errors': str(e)
             }, status=status.HTTP_400_BAD_REQUEST)
