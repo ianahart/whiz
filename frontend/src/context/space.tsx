@@ -1,6 +1,6 @@
 import { useState, createContext } from 'react';
 import { initialSpaceState } from '../helpers/initialState';
-import { ISpaceContext, ISpaceFull, IList } from '../interfaces';
+import { ISpaceContext, ISpaceFull, IList, ICard } from '../interfaces';
 
 export const SpaceContext = createContext<ISpaceContext | null>(null);
 
@@ -27,9 +27,29 @@ const SpaceContextProvider = ({ children }: IChildren) => {
     setLists(updated);
   };
 
+  const addCardToList = (card: ICard) => {
+    const updated = lists.map((list) => {
+      if (list.id === card.list) {
+        list.cards = [...list.cards, card];
+        return list;
+      }
+      return list;
+    });
+    setLists(updated);
+  };
+
   return (
     <SpaceContext.Provider
-      value={{ updateListTitle, updateTitle, setLists, lists, addList, setSpace, space }}
+      value={{
+        updateListTitle,
+        addCardToList,
+        updateTitle,
+        setLists,
+        lists,
+        addList,
+        setSpace,
+        space,
+      }}
     >
       {children}
     </SpaceContext.Provider>

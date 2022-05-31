@@ -25,6 +25,10 @@ const WorkSpace = () => {
 
   const editTitle = async (event: React.ChangeEvent<HTMLInputElement>) => {
     try {
+      if (event.target.value.trim().length === 0) {
+        setIsTitleEditing(false);
+        return;
+      }
       if (space.title === event.target.value) {
         return;
       }

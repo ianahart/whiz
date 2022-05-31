@@ -5,7 +5,7 @@ export const colors = [
   { id: 2, color: '#546fbc' },
   { id: 3, color: '#6eac0e' },
   { id: 4, color: '#e1ad1f' },
-  { id: 5, color: '#3e61d5' },
+  { id: 5, color: '#1e90ff' },
   { id: 6, color: '#a53745' },
   { id: 7, color: '#aadff2' },
   { id: 8, color: '#026963' },

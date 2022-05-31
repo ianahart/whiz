@@ -1,6 +1,13 @@
 .lists-container {
   display: flex;
   overflow-x: auto;
+  min-height: 100vh;
+}
+
+@media (min-width: 1280px) {
+  .lists-container {
+    width: 100%;
+  }
 }
 
 .list-container {
@@ -11,6 +18,8 @@
   border: 1px solid #e3e3e4;
   min-width: 250px;
   min-height: 200px;
+  height: fit-content;
+  word-break: break-all;
 }
 
 .list-title-input-container {
@@ -47,4 +56,156 @@
   svg {
     margin: 0 1rem;
   }
+}
+
+.list-input-wrapper {
+  border: 1px solid var(--color-border);
+  border-radius: var(--border-radius-sm);
+  background: #fff;
+
+  textarea {
+    width: 90%;
+    max-width: 90%;
+    border-radius: var(--border-radius-sm);
+    border: none;
+  }
+}
+
+.list-input-label-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.25rem;
+  p {
+    margin: 0;
+    padding: 0.1rem;
+    color: var(--color-offwhite);
+  }
+  svg {
+    margin-top: -1rem;
+    cursor: pointer;
+    color: var(--color-text-light);
+  }
+}
+
+.list-add-card-input-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 90%;
+  margin-top: 0.5rem;
+}
+
+@keyframes slidedown {
+  0% {
+    top: 0px;
+  }
+  100% {
+    top: 50px;
+  }
+}
+
+.list-add-card-btn-container {
+  display: flex;
+  justify-content: space-between;
+  padding: 1rem 0.25rem 0.25rem 0.25rem;
+  align-items: center;
+  position: relative;
+  button {
+    cursor: pointer;
+    color: var(--color-offwhite);
+    background: var(--color-primary);
+    border: none;
+    height: 35px;
+    width: 60px;
+    padding: 0.1rem 0.4rem;
+    border-radius: var(--border-radius-sm);
+    &:hover {
+      opacity: 0.8;
+    }
+  }
+  svg {
+    cursor: pointer;
+    color: var(--color-text-light);
+    margin-left: 1rem;
+  }
+}
+
+.list-card-container {
+  background: #fff;
+  border-radius: var(--border-radius-sm);
+  width: 95%;
+  cursor: pointer;
+  margin: 0.5rem auto;
+  padding: 0.25rem;
+  word-break: break-all;
+  box-shadow: var(--box-shadow);
+  &:hover {
+    background: darken(#fff, 3%);
+  }
+
+  p {
+    margin: 0;
+  }
+  svg {
+    color: var(--color-text-light);
+    cursor: pointer;
+  }
+}
+
+.list-card-color-labels-container {
+  position: absolute;
+  padding: 0.5rem;
+  box-shadow: var(--box-shadow);
+  border-radius: var(--border-radius-sm);
+  background-color: #e3e3e4;
+  box-shadow: var(--box-shadow);
+  top: 55px;
+  left: 52px;
+  min-width: 225px;
+  z-index: 5;
+}
+
+.list-card-color-labels-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid #c4c7cc;
+  p {
+    margin: 0;
+    font-size: 0.85rem;
+  }
+  svg {
+    color: var(--color-text-light);
+  }
+}
+.list-card-color-column {
+  display: flex;
+  position: relative;
+  align-items: center;
+
+  input {
+    color: var(--color-offwhite);
+    border: none;
+    display: block;
+    margin: 0.2rem;
+    border-radius: var(--border-radius-sm);
+    border: 1px solid var(--color-border);
+    cursor: pointer;
+    &:hover {
+      opacity: 0.7;
+    }
+  }
+}
+
+.list-card-label {
+  padding: 0.25rem;
+  width: 90%;
+  border-radius: var(--border-radius-sm);
+  color: var(--color-offwhite);
+}
+.list-card-label-column {
+  display: flex;
+  color: var(--color-text-light);
+  flex-direction: column;
 }

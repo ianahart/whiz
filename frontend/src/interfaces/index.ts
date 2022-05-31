@@ -2,7 +2,19 @@ export interface IList {
   id: number;
   space: number;
   title: string;
+  cards: ICard[];
   user: number;
+  x_coordinate: number;
+  y_coordinate: number;
+}
+
+export interface ICard {
+  color: string;
+  label: string;
+  list: number;
+  text: string;
+  user: number;
+  id: number;
 }
 
 export interface IBackground {
@@ -130,4 +142,5 @@ export interface ISpaceContext {
   setLists: (lists: IList[]) => void;
   updateTitle: (title: string) => void;
   updateListTitle: (title: string, id: number) => void;
+  addCardToList: (card: ICard) => void;
 }

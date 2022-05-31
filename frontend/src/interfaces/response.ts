@@ -1,4 +1,4 @@
-import { IBackground, IList, ISpaceFull, ISpaceMin, ITokens, IUser } from '.';
+import { ICard, IBackground, IList, ISpaceFull, ISpaceMin, ITokens, IUser } from '.';
 
 export interface ICreateListResponse {
   list: IList;
@@ -6,6 +6,10 @@ export interface ICreateListResponse {
 
 export interface ICreateSpaceResponse {
   space: ISpaceMin;
+}
+
+export interface ICreateCardResponse {
+  card: ICard;
 }
 
 export interface ILoginResponse {

@@ -14,7 +14,6 @@ const UserMenu = ({ closeUserMenu }: IUserMenuProps) => {
   const handleClickAway = useCallback(
     (event: MouseEvent) => {
       const target = event.target as HTMLButtonElement;
-      console.log(target.className);
       if (menuRef.current !== null) {
         const children = Array.from(menuRef.current.children);
         if (!children?.includes(target) && target.className !== 'user-menu') {

@@ -128,6 +128,7 @@
 .user-menu {
   position: absolute;
   top: 60px;
+  z-index: 4;
   right: 30px;
   background-color: var(--color-offwhite);
   border-radius: var(--border-radius-sm);
