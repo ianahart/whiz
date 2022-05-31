@@ -1,7 +1,5 @@
 import { AiOutlineClose, AiOutlinePlus } from 'react-icons/ai';
 import { useState } from 'react';
-import { AxiosError } from 'axios';
-import { http } from '../../../../helpers/utils';
 import { BsThreeDots } from 'react-icons/bs';
 import ColorLabels from './ColorLabels';
 

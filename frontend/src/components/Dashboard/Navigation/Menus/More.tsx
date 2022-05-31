@@ -1,11 +1,9 @@
-import { useContext, useState } from 'react';
+import { useContext } from 'react';
 import { BsChevronDown } from 'react-icons/bs';
 import { NavigationContext } from '../../../../context/navigation';
 import { INavigationContext } from '../../../../interfaces';
 import Menu from './Menu';
 const More = () => {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const closeMenu = () => setIsMenuOpen(false);
   const { activeMenuItem, setActiveMenuItem } = useContext(
     NavigationContext
   ) as INavigationContext;

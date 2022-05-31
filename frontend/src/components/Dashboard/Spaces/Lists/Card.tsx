@@ -1,4 +1,3 @@
-import { AiOutlineEdit } from 'react-icons/ai';
 import { useState, useRef } from 'react';
 import Draggable from 'react-draggable';
 import { ICard } from '../../../../interfaces';

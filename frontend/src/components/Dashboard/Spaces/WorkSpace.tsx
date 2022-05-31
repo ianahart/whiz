@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import '../../../styles/Workspace.scss';
 import { http } from '../../../helpers/utils';
 import { UserContext } from '../../../context/user';
-import { ISpaceContext, ISpaceFull, IUserContext } from '../../../interfaces/';
+import { ISpaceContext, IUserContext } from '../../../interfaces/';
 import { SpaceContext } from '../../../context/space';
 import { ICreateListResponse } from '../../../interfaces/response';
 import Lists from './Lists';

@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useContext, useState, useRef } from 'react';
+import { useContext, useState } from 'react';
 import { UserContext } from '../../../context/user';
 import { IUserContext } from '../../../interfaces';
 import UserMenu from './UserMenu';

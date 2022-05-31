@@ -1,5 +1,5 @@
 import { AxiosError } from 'axios';
-import { useState, useCallback, useContext, useEffect } from 'react';
+import { useCallback, useContext, useEffect } from 'react';
 import { http } from '../helpers/utils';
 import { useParams } from 'react-router-dom';
 

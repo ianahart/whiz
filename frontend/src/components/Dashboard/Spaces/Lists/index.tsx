@@ -1,14 +1,11 @@
-import { AxiosError } from 'axios';
-import { useContext, useState, useEffect, useCallback } from 'react';
+import { useContext} from 'react';
 import { SpaceContext } from '../../../../context/space';
-import { http } from '../../../../helpers/utils';
 import { ISpaceContext } from '../../../../interfaces';
 import List from './List';
 import '../../../../styles/List.scss';
 
 const Lists = () => {
-  const { space, lists } = useContext(SpaceContext) as ISpaceContext;
-  const [error, setError] = useState('');
+  const { lists } = useContext(SpaceContext) as ISpaceContext;
 
   return (
     <div className="lists-container overflow-scroll">

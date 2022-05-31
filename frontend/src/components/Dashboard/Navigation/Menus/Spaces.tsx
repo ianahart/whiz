@@ -1,5 +1,5 @@
 import { BsChevronDown } from 'react-icons/bs';
-import { useContext, useState } from 'react';
+import { useContext } from 'react';
 import Menu from './Menu';
 import { NavigationContext } from '../../../../context/navigation';
 import { INavigationContext } from '../../../../interfaces';

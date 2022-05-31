@@ -4,8 +4,6 @@ import { NavigationContext } from '../../../../context/navigation';
 import { INavigationContext } from '../../../../interfaces';
 import Menu from './Menu';
 const Starred = () => {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const closeMenu = () => setIsMenuOpen(false);
   const { activeMenuItem, setActiveMenuItem } = useContext(
     NavigationContext
   ) as INavigationContext;
