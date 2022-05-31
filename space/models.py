@@ -38,7 +38,13 @@ class SpaceManager(models.Manager):
 
         if space is None:
             return None
-        return {'space': space, 'lists': space.list_spaces.all()}
+
+        lists = []
+        for list in space.list_spaces.all():
+            list.cards = list.list_cards.all()
+            lists.append(list)
+
+        return {'space': space, 'lists': lists}
 
     def space_by_title(self, user: int, title: str):
         count = Space.objects.all().filter(

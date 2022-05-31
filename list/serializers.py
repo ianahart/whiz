@@ -1,6 +1,13 @@
 from rest_framework import serializers
+from card.serializers import CardSerializer
 
 from list.models import List
+
+
+class UpdateCoordSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = List
+        fields = ('x_coordinate', 'y_coordinate', )
 
 
 class UpdateListSerializer(serializers.ModelSerializer):
@@ -16,9 +23,12 @@ class UpdateListSerializer(serializers.ModelSerializer):
 
 
 class ListSerializer(serializers.ModelSerializer):
+    cards = CardSerializer(many=True, read_only=True)
+
     class Meta:
         model = List
-        fields = ('title', 'user', 'space', 'id', )
+        fields = ('title',  'cards', 'user', 'space', 'id',
+                  'x_coordinate', 'y_coordinate', )
 
 
 class CreateListSerializer(serializers.ModelSerializer):

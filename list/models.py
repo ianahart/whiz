@@ -7,6 +7,15 @@ from space.models import Space
 
 class ListManager(models.Manager):
 
+    def update_coords(self, data, pk: int):
+        list = List.objects.get(pk=pk)
+
+        if list is not None:
+            list.x_coordinate = data['x_coordinate']
+            list.y_coordinate = data['y_coordinate']
+
+            list.save()
+
     def retreive(self, user_id: int, list_id: int):
         return List.objects.all().order_by('-id').filter(
             user_id=user_id
@@ -56,6 +65,8 @@ class List(models.Model):
 
     created_at = models.DateTimeField(default=timezone.now)
     updated_at = models.DateTimeField(default=timezone.now)
+    x_coordinate = models.IntegerField(default=0)
+    y_coordinate = models.IntegerField(default=0)
     title = models.CharField(max_length=75, blank=True, null=True)
     user = models.ForeignKey(
         'account.CustomUser',

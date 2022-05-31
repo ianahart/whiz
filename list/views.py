@@ -5,9 +5,31 @@ from rest_framework.views import APIView
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
-from list.serializers import CreateListSerializer, ListSerializer, UpdateListSerializer
+from list.serializers import CreateListSerializer, ListSerializer, UpdateListSerializer, UpdateCoordSerializer
 from list.models import List
 from account.permissions import AccountPermission
+
+
+class CoordsAPIView(APIView):
+    permission_classes = [IsAuthenticated, AccountPermission, ]
+
+    def patch(self, request, pk=None):
+        try:
+            exists = List.objects.get(pk=pk)
+            self.check_object_permissions(request, exists.user)
+
+            serializer = UpdateCoordSerializer(data=request.data)
+            if serializer.is_valid():
+                List.objects.update_coords(data=serializer.data, pk=pk)
+                return Response({
+                                'message': 'success'
+                                })
+            else:
+                raise BadRequest
+        except (Exception, BadRequest, ):
+            return Response({
+                            'message': 'something went wrong.'
+                            }, status=status.HTTP_400_BAD_REQUEST)
 
 
 class DetailAPIView(APIView):
