@@ -15,6 +15,14 @@ export interface ICard {
   text: string;
   user: number;
   id: number;
+  start_date: Date;
+  end_date: Date;
+  details: string;
+}
+
+export interface ICardDetails extends ICard {
+  list_title: string;
+  created_at: Date;
 }
 
 export interface IBackground {
@@ -143,4 +151,5 @@ export interface ISpaceContext {
   updateTitle: (title: string) => void;
   updateListTitle: (title: string, id: number) => void;
   addCardToList: (card: ICard) => void;
+  removeCard: (card_id: number, list_id: number) => void;
 }

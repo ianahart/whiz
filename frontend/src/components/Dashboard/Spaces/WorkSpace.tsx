@@ -68,7 +68,7 @@ const WorkSpace = () => {
   };
 
   return (
-    <div>
+    <>
       <div className="workspace-add-list-container">
         <div
           onClick={() => setIsAddListOpen(true)}
@@ -103,7 +103,7 @@ const WorkSpace = () => {
         </div>
       </div>
       <Lists />
-    </div>
+    </>
   );
 };
 

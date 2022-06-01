@@ -3,8 +3,22 @@ from django.utils import timezone
 
 
 class CardManager(models.Manager):
+
+    def update(self, pk, **kwargs):
+        Card.objects.all().order_by(
+            '-id'
+        ).filter(
+            pk=pk
+        ).update(**kwargs)
+
+    def delete(self, pk=None):
+        card = Card.objects.get(pk=pk)
+        card.delete()
+
+    def retreive_all(self, pk=None):
+        return Card.objects.all().filter(list_id=pk)
+
     def create(self, data):
-        print(data)
         card = self.model(
             text=data['text'],
             color=data['color'],
@@ -18,6 +32,15 @@ class CardManager(models.Manager):
 
         return card
 
+    def retreive(self, pk):
+        card = Card.objects.get(pk=pk)
+        if card is None:
+            return None
+        card.list_title = card.list.title
+        card.details = card.details if card.details is not None else ''
+
+        return card
+
 
 class Card(models.Model):
 
@@ -28,6 +51,9 @@ class Card(models.Model):
     label = models.CharField(max_length=75, blank=True, null=True)
     text = models.CharField(max_length=75, blank=True, null=True)
     color = models.CharField(max_length=32, blank=True, null=True)
+    details = models.TextField(max_length=500, blank=True, null=True)
+    start_date = models.DateTimeField(default=timezone.now)
+    end_date = models.DateTimeField(default=timezone.now)
 
     list = models.ForeignKey(
         'list.List',

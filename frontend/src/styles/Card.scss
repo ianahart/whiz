@@ -1,0 +1,136 @@
+.card-details-title {
+  display: flex;
+  align-items: center;
+  p {
+    margin-left: 1rem;
+    font-size: 1.2rem;
+  }
+}
+
+.card-details-header {
+  padding: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  svg {
+    color: var(--color-text);
+    font-size: 1.5rem;
+    cursor: pointer;
+  }
+}
+
+.card-details-list-title {
+  padding: 0.5rem;
+  span {
+    font-weight: bold;
+  }
+}
+
+.card-details-description {
+  color: var(--color-text);
+  font-weight: bold;
+  padding: 0.5rem;
+  font-size: 1.2rem;
+}
+
+.card-details-description-title {
+  display: flex;
+  padding: 0.5rem;
+  align-items: center;
+  p {
+    font-weight: bold;
+  }
+  svg {
+    color: var(--color-text);
+    font-size: 1.3rem;
+    margin-right: 1.5rem;
+  }
+}
+
+.card-details-main {
+  display: flex;
+}
+
+.card-details-description {
+  flex-grow: 2;
+  flex-basis: 1;
+}
+
+.card-details-options {
+  flex-basis: 1;
+}
+
+.card-details-option {
+  border-radius: var(--border-radius-sm);
+  box-shadow: var(--box-shadow);
+  background: #d5d7da;
+  display: flex;
+  align-items: center;
+  color: var(--color-text);
+  margin: 1rem 0;
+  padding: 0.35rem;
+  cursor: pointer;
+  p {
+    margin: 0;
+  }
+  svg {
+    font-size: 1rem;
+    margin-right: 0.25rem;
+  }
+}
+
+.card-details-options {
+  padding: 0.5rem;
+  color: var(--color-text-light);
+  font-size: 0.8rem;
+  font-weight: bold;
+  min-width: 100px;
+}
+
+.card-details-options-action-title {
+  margin-top: 6rem;
+}
+
+.card-details-description-set {
+  background: #f3f3f8;
+  cursor: pointer;
+  margin-top: 3rem;
+  border-radius: var(--border-radius-sm);
+  padding: 0.3rem;
+  min-height: 150px;
+  font-size: 0.85rem;
+  &:hover {
+    opacity: 0.7;
+  }
+}
+
+.card-details-description-unset {
+  width: 100%;
+  textarea {
+    border-radius: var(--border-radius-sm);
+    border: 1px solid var(--color-border);
+    width: 100%;
+    resize: none;
+    min-height: 150px;
+  }
+}
+
+.card-details-description-btn-container {
+  button {
+    border-radius: var(--border-radius-sm);
+    box-shadow: var(--box-shadow);
+    border: none;
+    margin: 0.5rem;
+    cursor: pointer;
+    padding: 0.25rem;
+    width: 60px;
+    &:first-of-type {
+      background: var(--color-primary);
+      color: #fff;
+    }
+    &:last-of-type {
+      background: #d5d7da;
+      color: var(--color-text);
+    }
+  }
+}

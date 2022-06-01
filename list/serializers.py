@@ -23,11 +23,10 @@ class UpdateListSerializer(serializers.ModelSerializer):
 
 
 class ListSerializer(serializers.ModelSerializer):
-    cards = CardSerializer(many=True, read_only=True)
 
     class Meta:
         model = List
-        fields = ('title',  'cards', 'user', 'space', 'id',
+        fields = ('title', 'user', 'space', 'id',
                   'x_coordinate', 'y_coordinate', )
 
 

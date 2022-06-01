@@ -11,6 +11,20 @@ export const colors = [
   { id: 8, color: '#026963' },
 ];
 
+export const initialCardDetailsState = {
+  color: '',
+  label: '',
+  list: 0,
+  text: '',
+  user: 0,
+  id: 0,
+  start_date: new Date(),
+  end_date: new Date(),
+  details: '',
+  list_title: '',
+  created_at: new Date(),
+};
+
 export const initialSpaceState = {
   id: null,
   title: '',

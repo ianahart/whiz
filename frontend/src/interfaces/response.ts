@@ -1,4 +1,18 @@
-import { ICard, IBackground, IList, ISpaceFull, ISpaceMin, ITokens, IUser } from '.';
+import {
+  ICard,
+  IBackground,
+  IList,
+  ISpaceFull,
+  ISpaceMin,
+  ITokens,
+  IUser,
+  ICardDetails,
+} from '.';
+
+export interface ICardDetailsResponse {
+  message?: string;
+  card: ICardDetails;
+}
 
 export interface ICreateListResponse {
   list: IList;
@@ -40,4 +54,9 @@ export interface ISpacesDropdownResponse {
   page: number;
   has_next: boolean;
   spaces: ISpaceMin[];
+}
+
+export interface ICardsResponse {
+  message?: string;
+  cards: ICard[];
 }

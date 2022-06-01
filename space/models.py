@@ -41,7 +41,6 @@ class SpaceManager(models.Manager):
 
         lists = []
         for list in space.list_spaces.all():
-            list.cards = list.list_cards.all()
             lists.append(list)
 
         return {'space': space, 'lists': lists}

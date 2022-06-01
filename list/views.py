@@ -5,9 +5,33 @@ from rest_framework.views import APIView
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
+from card.serializers import CardSerializer
 from list.serializers import CreateListSerializer, ListSerializer, UpdateListSerializer, UpdateCoordSerializer
 from list.models import List
+from card.models import Card
 from account.permissions import AccountPermission
+
+
+class ListCardsAPIView(APIView):
+    permission_classes = [IsAuthenticated, ]
+
+    def get(self, request, pk=None):
+        try:
+            if pk is None:
+                raise ObjectDoesNotExist
+            cards = Card.objects.retreive_all(pk)
+            serializer = CardSerializer(cards, many=True)
+
+            return Response({
+                            'message': 'success',
+                            'cards': serializer.data,
+                            }, status=status.HTTP_200_OK)
+
+        except ObjectDoesNotExist as e:
+            print(e)
+            return Response({
+                            'errors': 'erorrs'
+                            }, status=status.HTTP_404_NOT_FOUND)
 
 
 class CoordsAPIView(APIView):
@@ -15,6 +39,7 @@ class CoordsAPIView(APIView):
 
     def patch(self, request, pk=None):
         try:
+            print(request.data)
             exists = List.objects.get(pk=pk)
             self.check_object_permissions(request, exists.user)
 
@@ -26,7 +51,8 @@ class CoordsAPIView(APIView):
                                 })
             else:
                 raise BadRequest
-        except (Exception, BadRequest, ):
+        except (Exception, BadRequest, ) as e:
+            print(e)
             return Response({
                             'message': 'something went wrong.'
                             }, status=status.HTTP_400_BAD_REQUEST)

@@ -38,9 +38,21 @@ const SpaceContextProvider = ({ children }: IChildren) => {
     setLists(updated);
   };
 
+  const removeCard = (card_id: number, list_id: number) => {
+    const updated = lists.map((list) => {
+      if (list.id === list_id) {
+        const filtered = list.cards.filter((card) => card.id !== card_id);
+        list.cards = [...filtered];
+      }
+      return list;
+    });
+    setLists(updated);
+  };
+
   return (
     <SpaceContext.Provider
       value={{
+        removeCard,
         updateListTitle,
         addCardToList,
         updateTitle,

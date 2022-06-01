@@ -1,35 +1,31 @@
-import { useState, useRef } from 'react';
-import Draggable from 'react-draggable';
-import { ICard } from '../../../../interfaces';
+import { useState, useRef, useContext } from 'react';
+import { AiOutlineClose } from 'react-icons/ai';
+import { SpaceContext } from '../../../../context/space';
+import { ICard, ISpaceContext } from '../../../../interfaces';
 export interface ICardProps {
   card: ICard;
+  openModal: (id: number) => void;
 }
 
-const Card = ({ card }: ICardProps) => {
+const Card = ({ openModal, card }: ICardProps) => {
+  const { removeCard } = useContext(SpaceContext) as ISpaceContext;
   const nodeRef = useRef(null);
-  const [isEditShowing, setIsEditShowing] = useState(false);
   return (
-    <Draggable nodeRef={nodeRef} grid={[10, 10]}>
-      <div
-        ref={nodeRef}
-        onMouseOver={() => setIsEditShowing(true)}
-        onMouseLeave={() => setIsEditShowing(false)}
-        className="list-card-container"
-      >
-        <div className="list-card-label-column">
-          {card.label.length > 0 && (
-            <p
-              className="list-card-label"
-              style={{ background: card.color.length > 0 ? card.color : '' }}
-            >
-              {card.label}
-            </p>
-          )}
+    <div ref={nodeRef} className="list-card-container">
+      <div style={{ position: 'relative' }} className="list-card-label-column">
+        <p
+          className="list-card-label"
+          style={{
+            background: card.color.length > 0 ? card.color : '',
+          }}
+        >
+          {card.label.length ? card.label : ''}
+        </p>
+        <p onClick={() => openModal(card.id)}>{card.text}</p>
 
-          <p>{card.text}</p>
-        </div>
+        {/* <button onClick={() => removeCard(card.id, card.list)}>remove</button>*/}
       </div>
-    </Draggable>
+    </div>
   );
 };
 
