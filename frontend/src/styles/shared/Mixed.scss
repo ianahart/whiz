@@ -76,3 +76,14 @@
   border-radius: 5px;
   background: rgba(255, 255, 255, 0.3);
 }
+
+.color-label-button {
+  border: none;
+  margin: 0.5rem 0;
+  background: #ccccd9;
+  border-radius: var(--border-radius-sm);
+  padding: 0.25rem;
+  box-shadow: var(--box-shadow);
+  font-weight: bold;
+  cursor: pointer;
+}

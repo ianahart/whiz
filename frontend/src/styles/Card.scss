@@ -33,7 +33,8 @@
   font-size: 1.2rem;
 }
 
-.card-details-description-title {
+.card-details-description-title,
+.card-details-activity-title {
   display: flex;
   padding: 0.5rem;
   align-items: center;
@@ -132,5 +133,36 @@
       background: #d5d7da;
       color: var(--color-text);
     }
+  }
+}
+
+.card-details-activity {
+  padding: 0.5rem 0.5rem 0 0.5rem;
+  display: flex;
+  align-items: center;
+  p {
+    color: var(--color-text);
+    font-size: 0.8rem;
+  }
+  span {
+    font-weight: bold;
+    color: #000;
+  }
+}
+
+.card-details-activity-avatar {
+  border-radius: 50%;
+  background: var(--color-text);
+  color: var(--color-offwhite);
+  padding: 0.25rem;
+  margin-right: 0.5rem;
+}
+
+.card-details-activity-date {
+  padding: 0 0.5rem;
+  p {
+    color: var(--color-text-light);
+    margin: 0;
+    font-size: 0.8rem;
   }
 }

@@ -56,6 +56,7 @@ class CardSerializer(serializers.ModelSerializer):
 
 class FullCardSerializer(serializers.ModelSerializer):
     list_title = serializers.CharField()
+    readable_date = serializers.CharField()
 
     class Meta:
         model = Card
@@ -69,5 +70,6 @@ class FullCardSerializer(serializers.ModelSerializer):
                   'end_date',
                   'details',
                   'list_title',
-                  'created_at'
+                  'created_at',
+                  'readable_date'
                   )

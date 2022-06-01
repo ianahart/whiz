@@ -125,6 +125,7 @@ const List = ({ list, controls }: IListProps) => {
             handleRemoveCard={handleRemoveCard}
             activeCard={activeCard}
             closeModal={closeModal}
+            fetchCards={fetchCards}
           />
         </div>
       )}

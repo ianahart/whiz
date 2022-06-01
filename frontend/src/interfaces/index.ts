@@ -23,6 +23,7 @@ export interface ICard {
 export interface ICardDetails extends ICard {
   list_title: string;
   created_at: Date;
+  readable_date: string;
 }
 
 export interface IBackground {

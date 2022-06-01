@@ -23,6 +23,7 @@ export const initialCardDetailsState = {
   details: '',
   list_title: '',
   created_at: new Date(),
+  readable_date: '',
 };
 
 export const initialSpaceState = {

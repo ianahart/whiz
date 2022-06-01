@@ -29,7 +29,7 @@ const AddCard = ({
   const [isColorLabelOpen, setIsColorLabelOpen] = useState(false);
 
   const closeColorLabel = () => setIsColorLabelOpen(false);
-
+  const changeLabel = () => {};
   return (
     <>
       {!isFormOpen ? (
@@ -74,6 +74,8 @@ const AddCard = ({
             </div>
             {isColorLabelOpen && (
               <ColorLabels
+                changeLabel={changeLabel}
+                hasButton={false}
                 handleSetLabel={handleSetLabel}
                 closeColorLabel={closeColorLabel}
               />

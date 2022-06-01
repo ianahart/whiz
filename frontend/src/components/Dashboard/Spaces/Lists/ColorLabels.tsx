@@ -7,9 +7,16 @@ import { colors } from '../../../../helpers/initialState';
 export interface IColorLabelsProps {
   closeColorLabel: () => void;
   handleSetLabel: (color: string, value: string) => void;
+  hasButton: boolean;
+  changeLabel: () => void;
 }
 
-const ColorLabels = ({ handleSetLabel, closeColorLabel }: IColorLabelsProps) => {
+const ColorLabels = ({
+  hasButton,
+  handleSetLabel,
+  changeLabel,
+  closeColorLabel,
+}: IColorLabelsProps) => {
   const menuRef = useRef<HTMLDivElement>(null);
 
   const handleOnChange = (event: React.ChangeEvent<HTMLInputElement>, color: string) => {
@@ -62,6 +69,12 @@ const ColorLabels = ({ handleSetLabel, closeColorLabel }: IColorLabelsProps) => 
             </div>
           );
         })}
+
+        {hasButton && (
+          <button onClick={changeLabel} className="color-label-button">
+            select
+          </button>
+        )}
       </div>
     </div>
   );

@@ -1,5 +1,6 @@
 from django.db import models
 from django.utils import timezone
+from datetime import timezone as tz, datetime, timedelta
 
 
 class CardManager(models.Manager):
@@ -38,6 +39,17 @@ class CardManager(models.Manager):
             return None
         card.list_title = card.list.title
         card.details = card.details if card.details is not None else ''
+
+        now = datetime.now(timezone.utc)
+        diff = now - card.created_at
+        hrs = round(diff.seconds / 3600)
+
+        msg = 'day'
+
+        if hrs < 24:
+            msg = '' f'{hrs} hours ago.'
+
+        card.readable_date = msg
 
         return card
 
