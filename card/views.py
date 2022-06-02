@@ -88,7 +88,8 @@ class ListCreateAPIView(APIView):
                 return Response({
                     'errors': serializer.errors
                 }, status=status.HTTP_400_BAD_REQUEST)
-        except (Exception, BadRequest, ):
+        except (Exception, BadRequest, ) as e:
+            print(e)
             return Response({
                             'message': 'something went wrong.'
                             }, status=status.HTTP_400_BAD_REQUEST)

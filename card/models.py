@@ -16,8 +16,19 @@ class CardManager(models.Manager):
         card = Card.objects.get(pk=pk)
         card.delete()
 
+    def __make_date_range(self, start: datetime, end: datetime):
+        range_start = start.strftime('%m/%d')
+        range_end = end.strftime('%m/%d')
+
+        year = end.strftime('%Y')
+        return f'{range_start} - {range_end} {year}'
+
     def retreive_all(self, pk=None):
-        return Card.objects.all().filter(list_id=pk)
+        cards = Card.objects.all().filter(list_id=pk)
+        for card in cards:
+            card.date_range = self.__make_date_range(
+                card.start_date, card.end_date)
+        return cards
 
     def create(self, data):
         card = self.model(
@@ -31,6 +42,9 @@ class CardManager(models.Manager):
         card.save()
         card.refresh_from_db()
 
+        card.date_range = self.__make_date_range(
+            card.start_date, card.end_date)
+
         return card
 
     def retreive(self, pk):
@@ -39,6 +53,9 @@ class CardManager(models.Manager):
             return None
         card.list_title = card.list.title
         card.details = card.details if card.details is not None else ''
+
+        card.date_range = self.__make_date_range(
+            card.start_date, card.end_date)
 
         now = datetime.now(timezone.utc)
         diff = now - card.created_at

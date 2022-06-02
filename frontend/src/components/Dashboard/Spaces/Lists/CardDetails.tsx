@@ -11,6 +11,7 @@ import '../../../../styles/Card.scss';
 import Activity from './Activity';
 import CardDescription from './CardDescription';
 import CardDetailsOptions from './CardDetailsOptions';
+import { CalendarDate } from '../../../../types/';
 
 export interface ICardDetailsProps {
   closeModal: () => void;
@@ -28,10 +29,27 @@ const CardDetails = ({
   const [details, setDetails] = useState<ICardDetails>(initialCardDetailsState);
   const [error, setError] = useState('');
   const [desc, setDesc] = useState('');
+  const [dates, setDates] = useState<CalendarDate>();
   const [descIsOpen, setDescIsOpen] = useState(false);
   const [colorLabelClosed, setColorLabelClosed] = useState(false);
+  const [datesIsOpen, setDatesIsOpen] = useState(false);
   const handleDescOnChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     setDesc(event.target.value);
+  };
+
+  const openColorLabel = () => setColorLabelClosed(true);
+  const closeColorLabel = () => setColorLabelClosed(false);
+  const handleDescIsOpen = (bool: boolean) => setDescIsOpen(bool);
+  const handleSetDateIsOpen = (bool: boolean) => setDatesIsOpen(bool);
+
+  const handleDateChange = async (value: any) => {
+    setDates(value);
+    const [start, end] = value;
+    const response = await http.patch(`/cards/${details.id}/`, {
+      details: { ...details, start_date: start, end_date: end },
+    });
+    await fetchCardDetails();
+    fetchCards();
   };
 
   const fetchCardDetails = useCallback(async () => {
@@ -74,7 +92,7 @@ const CardDetails = ({
     setDescIsOpen(false);
   };
 
-  const saveDesc = async (event: React.MouseEvent<HTMLButtonElement>) => {
+  const update = async (event: React.MouseEvent<HTMLButtonElement>) => {
     try {
       event.stopPropagation();
       const response = await http.patch(`/cards/${details.id}/`, {
@@ -108,9 +126,6 @@ const CardDetails = ({
       label: value,
     }));
   };
-  const openColorLabel = () => setColorLabelClosed(true);
-  const closeColorLabel = () => setColorLabelClosed(false);
-  const handleDescIsOpen = (bool: boolean) => setDescIsOpen(bool);
 
   return (
     <div className="list-inner-modal">
@@ -125,6 +140,7 @@ const CardDetails = ({
       </div>
       <div className="card-details-list-title">
         In list <span>{details?.list_title}</span>
+        <p>{details.date_range}</p>
       </div>
 
       <div className="card-details-description-title">
@@ -134,7 +150,7 @@ const CardDetails = ({
       <main className="card-details-main">
         <CardDescription
           descIsOpen={descIsOpen}
-          saveDesc={saveDesc}
+          update={update}
           cancelDesc={cancelDesc}
           handleDescIsOpen={handleDescIsOpen}
           handleDescOnChange={handleDescOnChange}
@@ -142,13 +158,17 @@ const CardDetails = ({
           desc={desc}
         />
         <CardDetailsOptions
+          dates={dates}
           removeCard={removeCard}
+          datesIsOpen={datesIsOpen}
           hasButton={true}
           changeLabel={changeLabel}
           openColorLabel={openColorLabel}
           handleSetLabel={handleSetLabel}
           closeColorLabel={closeColorLabel}
           colorLabelClosed={colorLabelClosed}
+          handleSetDateIsOpen={handleSetDateIsOpen}
+          handleDateChange={handleDateChange}
         />
       </main>
       <Activity listTitle={details.list_title} readableDate={details.readable_date} />

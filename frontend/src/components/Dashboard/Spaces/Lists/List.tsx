@@ -26,6 +26,7 @@ const List = ({ list, controls }: IListProps) => {
   const [cards, setCards] = useState<ICard[]>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [activeCard, setActiveCard] = useState<null | number>(null);
+
   const openModal = (id: number) => {
     setActiveCard(id);
     setIsModalOpen(true);
@@ -117,6 +118,31 @@ const List = ({ list, controls }: IListProps) => {
     }
   };
 
+  const editCardTitle = async (
+    event: React.ChangeEvent<HTMLInputElement>,
+    id: number
+  ) => {
+    try {
+      event.stopPropagation();
+      if (event.target.value.trim().length === 0) {
+        return;
+      }
+      const response = await http.patch(`/cards/${id}/`, {
+        details: { ...cards.find((card) => card.id === id), text: event.target.value },
+      });
+
+      setCards(
+        cards.map((card) => {
+          return card.id === id ? { ...card, text: event.target.value } : card;
+        })
+      );
+    } catch (error: unknown | AxiosError) {
+      if (error instanceof AxiosError && error.response) {
+        return;
+      }
+    }
+  };
+
   return (
     <div ref={nodeRef} className="list-container">
       {isModalOpen && (
@@ -147,7 +173,7 @@ const List = ({ list, controls }: IListProps) => {
           {cards.map((card) => {
             return (
               <Reorder.Item key={card.id} value={card}>
-                <Card card={card} openModal={openModal} />
+                <Card editCardTitle={editCardTitle} card={card} openModal={openModal} />
               </Reorder.Item>
             );
           })}

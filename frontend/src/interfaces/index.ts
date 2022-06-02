@@ -18,6 +18,7 @@ export interface ICard {
   start_date: Date;
   end_date: Date;
   details: string;
+  date_range: string;
 }
 
 export interface ICardDetails extends ICard {

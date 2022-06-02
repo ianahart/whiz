@@ -24,6 +24,10 @@
   span {
     font-weight: bold;
   }
+  p {
+    color: var(--color-text-light);
+    font-size: 0.9rem;
+  }
 }
 
 .card-details-description {
@@ -164,5 +168,37 @@
     color: var(--color-text-light);
     margin: 0;
     font-size: 0.8rem;
+  }
+}
+
+.calendar-container {
+  position: absolute;
+  top: 0;
+}
+
+#card-date-range {
+  display: flex;
+  align-items: center;
+  color: #b9b9bf;
+
+  p {
+    font-size: 0.75rem;
+  }
+  svg {
+    margin-right: 0.25rem;
+    font-size: 0.8rem;
+    color: #b9b9bf;
+  }
+}
+
+.edit-card-title {
+  border: 1px solid #cacad1;
+  margin: 0.2rem;
+  border-radius: var(--border-radius-sm);
+}
+
+@media (max-width: 1150px) {
+  .calendar-container {
+    left: 400px;
   }
 }

@@ -17,7 +17,7 @@ class UpdateCardSerializer(serializers.ModelSerializer):
                   'details',)
 
     def validate_details(self, value):
-        if len(value) > 500:
+        if isinstance(value, str) and len(value) > 500:
             raise serializers.ValidationError('Must be under 500 characters.')
         return value
 
@@ -41,6 +41,8 @@ class CreateCardSerializer(serializers.ModelSerializer):
 
 
 class CardSerializer(serializers.ModelSerializer):
+    date_range = serializers.CharField()
+
     class Meta:
         model = Card
         fields = ('text',
@@ -49,6 +51,7 @@ class CardSerializer(serializers.ModelSerializer):
                   'list',
                   'user',
                   'id',
+                  'date_range',
                   'start_date',
                   'end_date',
                   'details',)
@@ -57,6 +60,7 @@ class CardSerializer(serializers.ModelSerializer):
 class FullCardSerializer(serializers.ModelSerializer):
     list_title = serializers.CharField()
     readable_date = serializers.CharField()
+    date_range = serializers.CharField()
 
     class Meta:
         model = Card
@@ -69,6 +73,7 @@ class FullCardSerializer(serializers.ModelSerializer):
                   'start_date',
                   'end_date',
                   'details',
+                  'date_range',
                   'list_title',
                   'created_at',
                   'readable_date'

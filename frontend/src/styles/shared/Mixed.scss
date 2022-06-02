@@ -87,3 +87,19 @@
   font-weight: bold;
   cursor: pointer;
 }
+
+.color-label-wrapper {
+  position: absolute;
+  top: -34px;
+}
+
+.flex-center {
+  display: flex;
+  align-items: center;
+}
+
+@media (max-width: 1000px) {
+  .color-label-wrapper {
+    left: -290px;
+  }
+}

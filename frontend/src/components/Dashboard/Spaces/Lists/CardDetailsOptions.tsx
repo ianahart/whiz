@@ -1,21 +1,33 @@
 import { AiOutlineClockCircle } from 'react-icons/ai';
 import { BsPaintBucket, BsTrash } from 'react-icons/bs';
 import ColorLabels from './ColorLabels';
+import Calendar from 'react-calendar';
+import 'react-calendar/dist/Calendar.css';
+import '../../../../styles/shared/Mixed.scss';
+import { CalendarDate } from '../../../../types/';
 
 interface CardDetailsOptionsProps {
   removeCard: () => void;
   handleSetLabel: (color: string, value: string) => void;
+  handleSetDateIsOpen: (bool: boolean) => void;
+  datesIsOpen: boolean;
   closeColorLabel: () => void;
   openColorLabel: () => void;
   colorLabelClosed: boolean;
   hasButton: boolean;
   changeLabel: () => void;
+  dates: CalendarDate;
+  handleDateChange: (value: CalendarDate) => void;
 }
 
 const CardDetailsOptions = ({
   closeColorLabel,
   changeLabel,
   handleSetLabel,
+  datesIsOpen,
+  handleSetDateIsOpen,
+  dates,
+  handleDateChange,
   hasButton,
   openColorLabel,
   removeCard,
@@ -26,15 +38,28 @@ const CardDetailsOptions = ({
       <p>Add to card</p>
       <div className="card-details-options-add">
         <div className="card-details-option">
-          <AiOutlineClockCircle />
-          <p>Dates</p>
+          <div className="flex-center" onClick={() => handleSetDateIsOpen(!datesIsOpen)}>
+            <AiOutlineClockCircle />
+            <p>Dates</p>
+          </div>
+          {datesIsOpen && (
+            <div className="calendar-container">
+              <Calendar
+                tileClassName="tile"
+                view="month"
+                selectRange={true}
+                onChange={handleDateChange}
+                value={dates}
+              />
+            </div>
+          )}
         </div>
         <div className="card-details-option">
           <div onClick={openColorLabel} style={{ display: 'flex', position: 'relative' }}>
             <BsPaintBucket />
             <p>Labels</p>
             {colorLabelClosed && (
-              <div style={{ position: 'absolute', top: '-34px' }}>
+              <div className="color-label-wrapper">
                 <ColorLabels
                   changeLabel={changeLabel}
                   handleSetLabel={handleSetLabel}
