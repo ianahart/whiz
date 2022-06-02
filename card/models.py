@@ -5,6 +5,11 @@ from datetime import timezone as tz, datetime, timedelta
 
 class CardManager(models.Manager):
 
+    def move(self, pk: int, data):
+        card = Card.objects.get(pk=pk)
+        card.list = data['list']
+        card.save()
+
     def update(self, pk, **kwargs):
         Card.objects.all().order_by(
             '-id'

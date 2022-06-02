@@ -159,6 +159,7 @@ const CardDetails = ({
         />
         <CardDetailsOptions
           dates={dates}
+          card={details}
           removeCard={removeCard}
           datesIsOpen={datesIsOpen}
           hasButton={true}

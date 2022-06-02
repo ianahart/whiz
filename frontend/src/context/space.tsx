@@ -1,6 +1,9 @@
-import { useState, createContext } from 'react';
+import { useCallback, useState, createContext } from 'react';
 import { initialSpaceState } from '../helpers/initialState';
 import { ISpaceContext, ISpaceFull, IList, ICard } from '../interfaces';
+import { http } from '../helpers/utils';
+import { IRetreiveSpaceResponse } from '../interfaces/response';
+import { AxiosError } from 'axios';
 
 export const SpaceContext = createContext<ISpaceContext | null>(null);
 
@@ -11,6 +14,23 @@ interface IChildren {
 const SpaceContextProvider = ({ children }: IChildren) => {
   const [space, setSpace] = useState<ISpaceFull>(initialSpaceState);
   const [lists, setLists] = useState<IList[]>([]);
+
+  const fetchSpace = useCallback(async (id: number, title: string) => {
+    try {
+      if (id === undefined) {
+        return;
+      }
+      const response = await http.get<IRetreiveSpaceResponse>(
+        `/spaces/${id}/?title=${title}`
+      );
+      setSpace(response.data.space);
+      setLists(response.data.lists);
+    } catch (error: unknown | AxiosError) {
+      if (error instanceof AxiosError && error.response) {
+        const { errors } = error.response.data;
+      }
+    }
+  }, []);
 
   const addList = (list: IList) => {
     setLists((prevState) => [...prevState, list]);
@@ -55,6 +75,7 @@ const SpaceContextProvider = ({ children }: IChildren) => {
         removeCard,
         updateListTitle,
         addCardToList,
+        fetchSpace,
         updateTitle,
         setLists,
         lists,

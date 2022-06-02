@@ -5,9 +5,31 @@ from rest_framework.views import APIView
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
-from .serializers import FullCardSerializer, UpdateCardSerializer, CreateCardSerializer, CardSerializer
+from .serializers import FullCardSerializer, MoveCardSerializer, UpdateCardSerializer, CreateCardSerializer, CardSerializer
 from card.models import Card
 from account.permissions import AccountPermission
+
+
+class MoveCardAPIView(APIView):
+    permissions = [IsAuthenticated, AccountPermission, ]
+
+    def patch(self, request, pk=None):
+        try:
+            card = Card.objects.get(pk=pk)
+            self.check_object_permissions(request, card.user)
+            serializer = MoveCardSerializer(data=request.data)
+            if serializer.is_valid():
+                Card.objects.move(pk=pk, data=serializer.validated_data)
+            else:
+                raise PermissionDenied
+            return Response({
+            }, status=status.HTTP_200_OK)
+
+        except (PermissionDenied, Exception) as e:
+            print(e)
+            return Response({
+                'error': 'You do not have permission for this action.'
+            }, status=status.HTTP_400_BAD_REQUEST)
 
 
 class DetailAPIView(APIView):

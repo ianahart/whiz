@@ -2,6 +2,15 @@ from rest_framework import serializers
 from card.models import Card
 
 
+class MoveCardSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Card
+        fields = ('list', )
+
+    def validate(self, data):
+        return data
+
+
 class UpdateCardSerializer(serializers.ModelSerializer):
     class Meta:
         model = Card
@@ -22,7 +31,6 @@ class UpdateCardSerializer(serializers.ModelSerializer):
         return value
 
     def validate(self, data):
-        print(data)
         return data
 
     def update(self, pk, data):

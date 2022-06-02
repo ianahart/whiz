@@ -1,10 +1,13 @@
 import { AiOutlineClockCircle } from 'react-icons/ai';
-import { BsPaintBucket, BsTrash } from 'react-icons/bs';
+import { BsPaintBucket, BsTrash, BsTruck } from 'react-icons/bs';
+import { useState } from 'react';
 import ColorLabels from './ColorLabels';
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 import '../../../../styles/shared/Mixed.scss';
 import { CalendarDate } from '../../../../types/';
+import MoveCard from './MoveCard';
+import { ICard } from '../../../../interfaces';
 
 interface CardDetailsOptionsProps {
   removeCard: () => void;
@@ -15,6 +18,7 @@ interface CardDetailsOptionsProps {
   openColorLabel: () => void;
   colorLabelClosed: boolean;
   hasButton: boolean;
+  card: ICard;
   changeLabel: () => void;
   dates: CalendarDate;
   handleDateChange: (value: CalendarDate) => void;
@@ -23,6 +27,7 @@ interface CardDetailsOptionsProps {
 const CardDetailsOptions = ({
   closeColorLabel,
   changeLabel,
+  card,
   handleSetLabel,
   datesIsOpen,
   handleSetDateIsOpen,
@@ -33,6 +38,13 @@ const CardDetailsOptions = ({
   removeCard,
   colorLabelClosed,
 }: CardDetailsOptionsProps) => {
+  const [isMoveListOpen, setIsMovelistOpen] = useState(false);
+
+  const handleSetMoveListOpen = (bool: boolean) => setIsMovelistOpen(bool);
+  const openMoveList = (event: React.MouseEvent<HTMLDivElement>) => {
+    event.stopPropagation();
+    handleSetMoveListOpen(true);
+  };
   return (
     <div className="card-details-options">
       <p>Add to card</p>
@@ -76,6 +88,18 @@ const CardDetailsOptions = ({
         <div onClick={removeCard} role="button" className="card-details-option">
           <BsTrash />
           <p>Delete</p>
+        </div>
+        <div
+          style={{ position: 'relative' }}
+          onClick={openMoveList}
+          role="button"
+          className="card-details-option"
+        >
+          <BsTruck />
+          <p>Move</p>
+          {isMoveListOpen && (
+            <MoveCard card={card} handleSetMoveListOpen={handleSetMoveListOpen} />
+          )}
         </div>
       </div>
     </div>
