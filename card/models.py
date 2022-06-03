@@ -1,6 +1,8 @@
+import logging
 from django.db import models
 from django.utils import timezone
 from datetime import timezone as tz, datetime, timedelta
+logger = logging.getLogger('django')
 
 
 class CardManager(models.Manager):
@@ -52,6 +54,23 @@ class CardManager(models.Manager):
 
         return card
 
+    def __readable_date(self, card):
+        now, msg = datetime.now(timezone.utc), ''
+        diff = now - card.created_at
+        hrs = round(diff.seconds / 3600)
+        print(hrs)
+        try:
+            msg = str(diff).split(',')[0]
+            print(msg)
+            if 'day' in msg:
+                return f'{msg} ago.'
+        except IndexError:
+            logger.error('Unable to create a readable date for a card.')
+
+        if hrs <= 24:
+            msg = '' f'{hrs} hours ago.'
+        return msg
+
     def retreive(self, pk):
         card = Card.objects.get(pk=pk)
         if card is None:
@@ -62,17 +81,11 @@ class CardManager(models.Manager):
         card.date_range = self.__make_date_range(
             card.start_date, card.end_date)
 
-        now = datetime.now(timezone.utc)
-        diff = now - card.created_at
-        hrs = round(diff.seconds / 3600)
-
-        msg = 'day'
-
-        if hrs < 24:
-            msg = '' f'{hrs} hours ago.'
-
-        card.readable_date = msg
-
+        checklists = card.card_checklists.all()
+        for i in range(len(checklists)):
+            checklists[i].items = checklists[i].checklist_checklist_items.all()
+        card.checklists = checklists
+        card.readable_date = self.__readable_date(card)
         return card
 
 

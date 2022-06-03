@@ -25,6 +25,7 @@ export const initialCardDetailsState = {
   created_at: new Date(),
   readable_date: '',
   date_range: '',
+  card_checklists: [],
 };
 
 export const initialSpaceState = {

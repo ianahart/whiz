@@ -21,10 +21,29 @@ export interface ICard {
   date_range: string;
 }
 
+export interface ICheckListItem {
+  id: number;
+  user: number;
+  card: number;
+  checklist: number;
+  is_complete: boolean;
+  title: string;
+}
+
+export interface ICheckList {
+  title: string;
+  is_completed: false;
+  user: number;
+  card: number;
+  id: number;
+  checklist_checklist_items: ICheckListItem[];
+}
+
 export interface ICardDetails extends ICard {
   list_title: string;
   created_at: Date;
   readable_date: string;
+  card_checklists: ICheckList[];
 }
 
 export interface IBackground {

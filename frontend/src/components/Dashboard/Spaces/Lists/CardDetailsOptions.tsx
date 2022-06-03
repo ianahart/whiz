@@ -1,4 +1,4 @@
-import { AiOutlineClockCircle } from 'react-icons/ai';
+import { AiOutlineCheckSquare, AiOutlineClockCircle } from 'react-icons/ai';
 import { BsPaintBucket, BsTrash, BsTruck } from 'react-icons/bs';
 import { useState } from 'react';
 import ColorLabels from './ColorLabels';
@@ -7,7 +7,8 @@ import 'react-calendar/dist/Calendar.css';
 import '../../../../styles/shared/Mixed.scss';
 import { CalendarDate } from '../../../../types/';
 import MoveCard from './MoveCard';
-import { ICard } from '../../../../interfaces';
+import { ICard, ICheckList } from '../../../../interfaces';
+import ChecklistTitleForm from './ChecklistTitleForm';
 
 interface CardDetailsOptionsProps {
   removeCard: () => void;
@@ -22,11 +23,13 @@ interface CardDetailsOptionsProps {
   changeLabel: () => void;
   dates: CalendarDate;
   handleDateChange: (value: CalendarDate) => void;
+  addCheckList: (checklist: ICheckList) => void;
 }
 
 const CardDetailsOptions = ({
   closeColorLabel,
   changeLabel,
+  addCheckList,
   card,
   handleSetLabel,
   datesIsOpen,
@@ -39,8 +42,10 @@ const CardDetailsOptions = ({
   colorLabelClosed,
 }: CardDetailsOptionsProps) => {
   const [isMoveListOpen, setIsMovelistOpen] = useState(false);
+  const [isChecklistOpen, setIsChecklistOpen] = useState(false);
 
   const handleSetMoveListOpen = (bool: boolean) => setIsMovelistOpen(bool);
+  const handleSetChecklistOpen = (bool: boolean) => setIsChecklistOpen(bool);
   const openMoveList = (event: React.MouseEvent<HTMLDivElement>) => {
     event.stopPropagation();
     handleSetMoveListOpen(true);
@@ -81,6 +86,17 @@ const CardDetailsOptions = ({
               </div>
             )}
           </div>
+        </div>
+        <div onClick={() => handleSetChecklistOpen(true)} className="card-details-option">
+          <AiOutlineCheckSquare />
+          <p>Checklist</p>
+          {isChecklistOpen && (
+            <ChecklistTitleForm
+              card={card}
+              addCheckList={addCheckList}
+              handleSetChecklistOpen={handleSetChecklistOpen}
+            />
+          )}
         </div>
       </div>
       <p className="card-details-options-action-title">Actions</p>

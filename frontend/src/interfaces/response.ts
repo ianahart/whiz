@@ -7,7 +7,13 @@ import {
   ITokens,
   IUser,
   ICardDetails,
+  ICheckList,
 } from '.';
+
+export interface ICreateChecklistResponse {
+  message?: string;
+  checklist: ICheckList;
+}
 
 export interface ICardDetailsResponse {
   message?: string;

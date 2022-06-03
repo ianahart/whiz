@@ -52,6 +52,7 @@ INSTALLED_APPS = [
     'space',
     'list',
     'card',
+    'checklist',
 ]
 
 

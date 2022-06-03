@@ -8,5 +8,6 @@ urlpatterns = [
     path('api/v1/', include(('space.urls', 'space'))),
     path('api/v1/', include(('list.urls', 'list'))),
     path('api/v1/', include(('card.urls', 'card'))),
+    path('api/v1/', include(('checklist.urls', 'checklist'))),
 
 ]

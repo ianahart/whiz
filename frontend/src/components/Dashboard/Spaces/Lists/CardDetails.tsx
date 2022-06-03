@@ -5,13 +5,14 @@ import { AiOutlineClockCircle, AiOutlineClose } from 'react-icons/ai';
 import { BsCardHeading, BsTextCenter, BsTrash } from 'react-icons/bs';
 import { initialCardDetailsState } from '../../../../helpers/initialState';
 import { http } from '../../../../helpers/utils';
-import { ICardDetails } from '../../../../interfaces';
+import { ICardDetails, ICheckList, ICheckListItem } from '../../../../interfaces';
 import { ICardDetailsResponse } from '../../../../interfaces/response';
 import '../../../../styles/Card.scss';
 import Activity from './Activity';
 import CardDescription from './CardDescription';
 import CardDetailsOptions from './CardDetailsOptions';
 import { CalendarDate } from '../../../../types/';
+import Checklist from './Checklist';
 
 export interface ICardDetailsProps {
   closeModal: () => void;
@@ -33,6 +34,7 @@ const CardDetails = ({
   const [descIsOpen, setDescIsOpen] = useState(false);
   const [colorLabelClosed, setColorLabelClosed] = useState(false);
   const [datesIsOpen, setDatesIsOpen] = useState(false);
+
   const handleDescOnChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     setDesc(event.target.value);
   };
@@ -50,6 +52,13 @@ const CardDetails = ({
     });
     await fetchCardDetails();
     fetchCards();
+  };
+
+  const addCheckList = (checklist: ICheckList) => {
+    setDetails((prevState) => ({
+      ...prevState,
+      card_checklists: [...prevState.card_checklists, checklist],
+    }));
   };
 
   const fetchCardDetails = useCallback(async () => {
@@ -127,6 +136,51 @@ const CardDetails = ({
     }));
   };
 
+  const addChecklistItem = (item: ICheckListItem) => {
+    const updated = details.card_checklists.map((checklist) => {
+      if (checklist.id === item.checklist) {
+        const items = [...checklist.checklist_checklist_items, item];
+        checklist.checklist_checklist_items = items;
+      }
+      return checklist;
+    });
+
+    setDetails((prevState) => ({
+      ...prevState,
+      card_checklists: [...updated],
+    }));
+  };
+
+  const updateChecklistItem = (checked: boolean, item: ICheckListItem) => {
+    try {
+      const response = http.patch(`/checklists/items/${item.id}/`, {
+        is_complete: checked,
+      });
+
+      const updated = details.card_checklists.map((checklist) => {
+        if (checklist.id === item.checklist) {
+          const listItems = checklist.checklist_checklist_items.map((listItem) => {
+            if (listItem.id === item.id) {
+              return { ...listItem, is_complete: checked };
+            } else {
+              return listItem;
+            }
+          });
+          checklist.checklist_checklist_items = listItems;
+        }
+        return checklist;
+      });
+      setDetails((prevState) => ({
+        ...prevState,
+        card_checklists: [...updated],
+      }));
+    } catch (error: unknown | AxiosError) {
+      if (error instanceof AxiosError && error.response) {
+        return;
+      }
+    }
+  };
+
   return (
     <div className="list-inner-modal">
       <div className="card-details-header">
@@ -170,9 +224,22 @@ const CardDetails = ({
           colorLabelClosed={colorLabelClosed}
           handleSetDateIsOpen={handleSetDateIsOpen}
           handleDateChange={handleDateChange}
+          addCheckList={addCheckList}
         />
       </main>
       <Activity listTitle={details.list_title} readableDate={details.readable_date} />
+      <div>
+        {details.card_checklists.map((checklist) => {
+          return (
+            <Checklist
+              addChecklistItem={addChecklistItem}
+              updateChecklistItem={updateChecklistItem}
+              key={checklist.id}
+              checklist={checklist}
+            />
+          );
+        })}
+      </div>
     </div>
   );
 };

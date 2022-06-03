@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from card.models import Card
+from checklist.serializers import CheckListSerializer
 
 
 class MoveCardSerializer(serializers.ModelSerializer):
@@ -69,6 +70,7 @@ class FullCardSerializer(serializers.ModelSerializer):
     list_title = serializers.CharField()
     readable_date = serializers.CharField()
     date_range = serializers.CharField()
+    card_checklists = CheckListSerializer(many=True)
 
     class Meta:
         model = Card
@@ -84,5 +86,6 @@ class FullCardSerializer(serializers.ModelSerializer):
                   'date_range',
                   'list_title',
                   'created_at',
-                  'readable_date'
+                  'readable_date',
+                  'card_checklists',
                   )
