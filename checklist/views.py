@@ -1,3 +1,4 @@
+import logging
 from django.core.exceptions import BadRequest, ObjectDoesNotExist, PermissionDenied
 from django.db import DatabaseError
 from rest_framework import permissions
@@ -5,9 +6,10 @@ from rest_framework.views import APIView
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
-from checklist.models import CheckListItem
+from checklist.models import CheckListItem, Checklist
 from account.permissions import AccountPermission
 from checklist.serializers import UpdateCheckListItemSerializer, CheckListItemSerializer, CheckListSerializer, CreateCheckListItemSerializer, CreateCheckListSerializer
+logger = logging.getLogger('django')
 
 
 class DetailListItemItemAPIView(APIView):
@@ -61,6 +63,25 @@ class ListCreateListItemAPIView(APIView):
         except (Exception, BadRequest, ) as e:
             return Response({
                             'message': 'something went wrong.'
+                            }, status=status.HTTP_400_BAD_REQUEST)
+
+
+class DetailAPIView(APIView):
+    permission_classes = [IsAuthenticated, AccountPermission, ]
+
+    def delete(self, request, pk=None):
+        try:
+            checklist = Checklist.objects.get(pk=pk)
+            self.check_object_permissions(request, checklist.user)
+
+            checklist.delete()
+
+            return Response({
+            }, status=status.HTTP_204_NO_CONTENT)
+        except (Exception) as e:
+            logger.error('Unable to delete checklist.')
+            return Response({
+                            'error': 'Something went wrong.'
                             }, status=status.HTTP_400_BAD_REQUEST)
 
 

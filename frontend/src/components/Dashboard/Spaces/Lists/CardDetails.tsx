@@ -183,6 +183,21 @@ const CardDetails = ({
     }
   };
 
+  const removeChecklist = async (id: number) => {
+    try {
+      await http.delete(`/checklists/${id}/`);
+      console.log(details.card_checklists);
+      setDetails((prevState) => ({
+        ...prevState,
+        card_checklists: prevState.card_checklists.filter((list) => list.id !== id),
+      }));
+    } catch (error: unknown | AxiosError) {
+      if (error instanceof AxiosError && error.response) {
+        console.log(error.response);
+      }
+    }
+  };
+
   return (
     <div className="list-inner-modal">
       <div className="card-details-header">
@@ -238,6 +253,7 @@ const CardDetails = ({
               updateChecklistItem={updateChecklistItem}
               key={checklist.id}
               checklist={checklist}
+              removeChecklist={removeChecklist}
               rerender={rerender}
             />
           );

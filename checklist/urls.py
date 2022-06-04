@@ -3,5 +3,7 @@ from . import views
 urlpatterns = [
     path('checklists/', views.ListCreateAPIView.as_view()),
     path('checklists/items/', views.ListCreateListItemAPIView.as_view()),
-    path('checklists/items/<int:pk>/', views.DetailListItemItemAPIView.as_view())
+    path('checklists/items/<int:pk>/', views.DetailListItemItemAPIView.as_view()),
+    path('checklists/<int:pk>/', views.DetailAPIView.as_view()),
+
 ]

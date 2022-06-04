@@ -11,6 +11,7 @@ interface IChecklistProps {
   checklist: ICheckList;
   addChecklistItem: (item: ICheckListItem) => void;
   updateChecklistItem: (checked: boolean, item: ICheckListItem) => void;
+  removeChecklist: (id: number) => void;
 }
 
 const Checklist = ({
@@ -18,6 +19,7 @@ const Checklist = ({
   rerender,
   checklist,
   updateChecklistItem,
+  removeChecklist,
 }: IChecklistProps) => {
   const [isFormShowing, setIsFormShowing] = useState(false);
   const [listItemValue, setListItemValue] = useState('');
@@ -73,6 +75,11 @@ const Checklist = ({
     }
   };
 
+  const handleRemoveChecklist = (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.stopPropagation();
+    removeChecklist(checklist.id);
+  };
+
   return (
     <div className="checklist-wrapper">
       <div className="flex-center">
@@ -90,7 +97,9 @@ const Checklist = ({
           <p>{checklist.title}</p>
         </div>
         <div>
-          <button className="checklist-action">Delete</button>
+          <button onClick={handleRemoveChecklist} className="checklist-action">
+            Delete
+          </button>
         </div>
       </div>
       <div className="checklist-item-form">
