@@ -310,6 +310,10 @@
 }
 
 @media (max-width: 600px) {
+  .calendar-container {
+    right: 100px;
+    width: 240px;
+  }
   .card-details-activity {
     flex-direction: column;
     align-items: flex-start;
