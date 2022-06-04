@@ -1,12 +1,13 @@
 import { AxiosError } from 'axios';
-import { useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { AiOutlineCheckSquare } from 'react-icons/ai';
 import { http } from '../../../../helpers/utils';
-import { ICheckList, ICheckListItem } from '../../../../interfaces';
+import { ICardDetails, ICheckList, ICheckListItem } from '../../../../interfaces';
 import '../../../../styles/Checklist.scss';
 import ChecklistItem from './ChecklistItem';
 
 interface IChecklistProps {
+  rerender: boolean;
   checklist: ICheckList;
   addChecklistItem: (item: ICheckListItem) => void;
   updateChecklistItem: (checked: boolean, item: ICheckListItem) => void;
@@ -14,12 +15,29 @@ interface IChecklistProps {
 
 const Checklist = ({
   addChecklistItem,
+  rerender,
   checklist,
   updateChecklistItem,
 }: IChecklistProps) => {
   const [isFormShowing, setIsFormShowing] = useState(false);
   const [listItemValue, setListItemValue] = useState('');
+  const [progressBar, setProgressBar] = useState(0);
   const [error, setError] = useState('');
+
+  const getProgressBar = useCallback(() => {
+    let total = 0;
+    for (const item of checklist.checklist_checklist_items) {
+      if (item.is_complete) {
+        total += 1;
+      }
+      setProgressBar(
+        Math.floor((total / checklist.checklist_checklist_items.length) * 100)
+      );
+    }
+  }, [checklist]);
+  useEffect(() => {
+    getProgressBar();
+  }, [rerender, getProgressBar]);
 
   const openForm = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.stopPropagation();
@@ -57,7 +75,15 @@ const Checklist = ({
 
   return (
     <div className="checklist-wrapper">
-      <div className="checklist-progress-bar"></div>
+      <div className="flex-center">
+        <p className="progress-indicator">{`${progressBar}%`}</p>
+        <div className="checklist-progress-bar-container">
+          <div
+            style={{ width: `${progressBar}%` }}
+            className="checklist-progress-bar"
+          ></div>
+        </div>
+      </div>
       <div className="check-list-title-container card-details-checklists-title">
         <div className="checklist-title">
           <AiOutlineCheckSquare />

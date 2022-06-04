@@ -1,8 +1,7 @@
 import { AxiosError } from 'axios';
-import { debounce } from 'lodash';
-import { useEffect, useCallback, useState, useMemo } from 'react';
-import { AiOutlineClockCircle, AiOutlineClose } from 'react-icons/ai';
-import { BsCardHeading, BsTextCenter, BsTrash } from 'react-icons/bs';
+import { useEffect, useCallback, useState } from 'react';
+import { AiOutlineClose } from 'react-icons/ai';
+import { BsCardHeading, BsTextCenter } from 'react-icons/bs';
 import { initialCardDetailsState } from '../../../../helpers/initialState';
 import { http } from '../../../../helpers/utils';
 import { ICardDetails, ICheckList, ICheckListItem } from '../../../../interfaces';
@@ -34,11 +33,13 @@ const CardDetails = ({
   const [descIsOpen, setDescIsOpen] = useState(false);
   const [colorLabelClosed, setColorLabelClosed] = useState(false);
   const [datesIsOpen, setDatesIsOpen] = useState(false);
+  const [rerender, setRerender] = useState(false);
 
   const handleDescOnChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     setDesc(event.target.value);
   };
 
+  const handlererender = () => setRerender(!rerender);
   const openColorLabel = () => setColorLabelClosed(true);
   const closeColorLabel = () => setColorLabelClosed(false);
   const handleDescIsOpen = (bool: boolean) => setDescIsOpen(bool);
@@ -174,6 +175,7 @@ const CardDetails = ({
         ...prevState,
         card_checklists: [...updated],
       }));
+      handlererender();
     } catch (error: unknown | AxiosError) {
       if (error instanceof AxiosError && error.response) {
         return;
@@ -236,6 +238,7 @@ const CardDetails = ({
               updateChecklistItem={updateChecklistItem}
               key={checklist.id}
               checklist={checklist}
+              rerender={rerender}
             />
           );
         })}

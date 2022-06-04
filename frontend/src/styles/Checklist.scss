@@ -2,12 +2,27 @@
   margin: 2rem 0;
 }
 
-.checklist-progress-bar {
+.checklist-progress-bar-container {
   height: 5px;
   border-radius: var(--border-radius-lg);
   background: #d9d9e0;
   width: 90%;
   margin: 0 auto;
+  position: relative;
+}
+
+.progress-indicator {
+  color: var(--color-text-light);
+  margin-left: 1rem;
+}
+
+.checklist-progress-bar {
+  background: #13b210;
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 5px;
+  border-radius: var(--border-radius-lg);
 }
 
 .checklist-title {
