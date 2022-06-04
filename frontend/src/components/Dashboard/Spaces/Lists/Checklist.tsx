@@ -25,6 +25,7 @@ const Checklist = ({
   const [listItemValue, setListItemValue] = useState('');
   const [progressBar, setProgressBar] = useState(0);
   const [error, setError] = useState('');
+  const [hideComplete, setHideComplete] = useState(false);
 
   const getProgressBar = useCallback(() => {
     let total = 0;
@@ -75,6 +76,11 @@ const Checklist = ({
     }
   };
 
+  const hideCheckedItems = (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.stopPropagation();
+    setHideComplete((prevState) => !prevState);
+  };
+
   const handleRemoveChecklist = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.stopPropagation();
     removeChecklist(checklist.id);
@@ -82,6 +88,11 @@ const Checklist = ({
 
   return (
     <div className="checklist-wrapper">
+      <div className="checklist-hide-checked-items">
+        <button className="checklist-action" onClick={hideCheckedItems}>
+          {hideComplete ? 'Show checked items' : 'Hide checked items'}
+        </button>
+      </div>
       <div className="flex-center">
         <p className="progress-indicator">{`${progressBar}%`}</p>
         <div className="checklist-progress-bar-container">
@@ -121,15 +132,28 @@ const Checklist = ({
         )}
       </div>
       <div className="check-list-items-container">
-        {checklist.checklist_checklist_items.map((checklistItem) => {
-          return (
-            <ChecklistItem
-              item={checklistItem}
-              updateChecklistItem={updateChecklistItem}
-              key={checklistItem.id}
-            />
-          );
-        })}
+        {hideComplete &&
+          checklist.checklist_checklist_items
+            .filter((list) => !list.is_complete)
+            .map((checklistItem) => {
+              return (
+                <ChecklistItem
+                  item={checklistItem}
+                  updateChecklistItem={updateChecklistItem}
+                  key={checklistItem.id}
+                />
+              );
+            })}
+        {!hideComplete &&
+          checklist.checklist_checklist_items.map((checklistItem) => {
+            return (
+              <ChecklistItem
+                item={checklistItem}
+                updateChecklistItem={updateChecklistItem}
+                key={checklistItem.id}
+              />
+            );
+          })}
       </div>
     </div>
   );
