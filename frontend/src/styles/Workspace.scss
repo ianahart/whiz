@@ -23,12 +23,13 @@
 }
 
 .workspace-space-title {
-  font-size: 1.1rem;
-  background-color: rgba(73, 72, 72, 0.6);
-  padding: 0.35rem;
-  border-radius: var(--border-radius-sm);
   h1 {
-    margin: 0;
+    background-color: rgba(73, 72, 72, 0.6);
+    font-size: 1.1rem;
+    padding: 0.35rem;
+    border-radius: var(--border-radius-sm);
+
+    margin: 0 1rem 0 1rem;
     color: var(--color-offwhite);
     font-size: 1.3rem;
   }
@@ -103,6 +104,31 @@
   100% {
     top: 0x;
   }
+}
+
+.workspace-starred {
+  display: flex;
+  align-items: center;
+}
+
+.workspace-star {
+  border-radius: var(--border-radius-sm);
+  box-shadow: var(--box-shadow);
+  background: #fff;
+  font-size: 2.5rem;
+  display: flex;
+  flex-direction: column;
+  svg {
+    cursor: pointer;
+  }
+}
+
+.workspace-star-active {
+  color: orange;
+}
+
+.workspace-start-unactive {
+  color: var(--color-text);
 }
 
 .workspace-space-title-input {

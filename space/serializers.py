@@ -5,7 +5,14 @@ from space.models import Space
 class UpdateSpaceSerializer(serializers.ModelSerializer):
     class Meta:
         model = Space
-        fields = ('title', )
+        fields = ('title',
+                  'id',
+                  'color',
+                  'background',
+                  'thumbnail',
+                  'has_background',
+                  'is_starred',
+                  )
 
     def validate_title(self, value):
         if len(value) == 0 or len(value) > 125:
@@ -18,7 +25,7 @@ class SpaceSerializer(serializers.ModelSerializer):
     class Meta:
         model = Space
         fields = ('id', 'title', 'color', 'background',
-                  'has_background', 'thumbnail', )
+                  'has_background', 'thumbnail', 'is_starred', )
         read_only_fields = ['id']
 
 

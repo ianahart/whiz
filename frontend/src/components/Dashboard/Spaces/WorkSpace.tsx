@@ -1,5 +1,5 @@
 import { AxiosError } from 'axios';
-import { AiOutlineClose, AiOutlinePlus } from 'react-icons/ai';
+import { AiOutlineClose, AiOutlinePlus, AiOutlineStar } from 'react-icons/ai';
 import { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../../../styles/Workspace.scss';
@@ -13,7 +13,9 @@ import Lists from './Lists';
 const WorkSpace = () => {
   const navigate = useNavigate();
   const { user } = useContext(UserContext) as IUserContext;
-  const { space, updateTitle, addList } = useContext(SpaceContext) as ISpaceContext;
+  const { space, updateTitle, addList, updateStarredSpace } = useContext(
+    SpaceContext
+  ) as ISpaceContext;
   const [isAddListOpen, setIsAddListOpen] = useState(false);
   const [listTitle, setListTitle] = useState('');
   const [workSpaceError, setWorkSpaceError] = useState('');
@@ -33,9 +35,9 @@ const WorkSpace = () => {
         return;
       }
       updateTitle(event.target.value);
-      const response = await http.patch(`/spaces/${space.id}/`, {
-        title: event.target.value,
-      });
+      const data = { ...space };
+      data.title = event.target.value;
+      const response = await http.patch(`/spaces/${space.id}/`, data);
 
       setIsTitleEditing(false);
       navigate(`/spaces/${space.id}/${event.target.value}`);
@@ -93,7 +95,17 @@ const WorkSpace = () => {
         )}
         <div className="workspace-space-title">
           {!isTitleEditing && (
-            <h1 onClick={() => setIsTitleEditing(true)}>{space.title}</h1>
+            <div className="workspace-starred">
+              <h1 onClick={() => setIsTitleEditing(true)}>{space.title}</h1>
+              <div
+                onClick={() => updateStarredSpace(!space.is_starred)}
+                className={`workspace-star ${
+                  space.is_starred ? 'workspace-star-active' : 'workspace-star-unactive'
+                }`}
+              >
+                <AiOutlineStar />
+              </div>
+            </div>
           )}
           {isTitleEditing && (
             <div className="workspace-space-title-input">

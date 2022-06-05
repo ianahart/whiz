@@ -35,6 +35,7 @@ export const initialSpaceState = {
   background: '',
   thumbnail: '',
   has_background: false,
+  is_starred: false,
 };
 
 export const initialRegisterFormState = {

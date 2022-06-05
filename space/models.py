@@ -18,14 +18,14 @@ class SpaceManager(models.Manager):
 
         return {'page': next_page, 'next_page': cur_page.has_next(), 'spaces': spaces}
 
-    def update(self, data: dict[str, str], pk: int):
+    def update(self, pk: int, **kwargs):
+        print(kwargs)
         space = Space.objects.filter(
             pk=pk
         ).first()
 
         if space is not None:
-            space.title = data['title']
-            space.save()
+            Space.objects.filter(pk=space.pk).update(**kwargs)
 
     def retreive(self, user: int, pk: int, title: str):
         space = Space.objects.all().filter(
@@ -86,6 +86,7 @@ class Space(models.Model):
     background = models.URLField(blank=True, null=True,)
     thumbnail = models.URLField(blank=True, null=True,)
     has_background = models.BooleanField(default=False)
+    is_starred = models.BooleanField(default=False)
     user = models.ForeignKey(
         'account.CustomUser',
         on_delete=models.CASCADE,

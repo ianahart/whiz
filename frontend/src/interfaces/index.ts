@@ -68,6 +68,7 @@ export interface ISpaceFull {
   background: string | null;
   has_background: boolean;
   thumbnail: string | null;
+  is_starred: boolean;
 }
 
 export interface ICreateAccountForm {
@@ -175,4 +176,5 @@ export interface ISpaceContext {
   removeCard: (card_id: number, list_id: number) => void;
   fetchSpace: (id: number, title: string) => void;
   removeList: (id: number) => void;
+  updateStarredSpace: (IsStarred: boolean) => void;
 }

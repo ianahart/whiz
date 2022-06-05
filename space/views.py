@@ -21,7 +21,7 @@ class DetailAPIView(APIView):
 
             serializer = UpdateSpaceSerializer(data=request.data)
             if serializer.is_valid():
-                Space.objects.update(data=serializer.data, pk=pk)
+                Space.objects.update(pk=pk, **serializer.data)
                 return Response({
                                 'message': 'success'
                                 })

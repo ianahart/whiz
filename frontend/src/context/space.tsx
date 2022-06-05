@@ -15,6 +15,25 @@ const SpaceContextProvider = ({ children }: IChildren) => {
   const [space, setSpace] = useState<ISpaceFull>(initialSpaceState);
   const [lists, setLists] = useState<IList[]>([]);
 
+  const updateStarredSpace = async (isStarred: boolean) => {
+    try {
+      setSpace((prevState) => ({
+        ...prevState,
+        is_starred: !prevState.is_starred,
+      }));
+
+      const data = { ...space };
+
+      data.is_starred = isStarred;
+      const response = await http.patch(`/spaces/${space.id}/`, data);
+    } catch (error: unknown | AxiosError) {
+      if (error instanceof AxiosError && error.response) {
+        console.log(error.response);
+        return;
+      }
+    }
+  };
+
   const fetchSpace = useCallback(async (id: number, title: string) => {
     try {
       if (id === undefined) {
@@ -84,6 +103,7 @@ const SpaceContextProvider = ({ children }: IChildren) => {
         setLists,
         lists,
         addList,
+        updateStarredSpace,
         removeList,
         setSpace,
         space,
