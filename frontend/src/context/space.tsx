@@ -36,6 +36,10 @@ const SpaceContextProvider = ({ children }: IChildren) => {
     setLists((prevState) => [...prevState, list]);
   };
 
+  const removeList = (id: number) => {
+    setLists(lists.filter((list) => list.id !== id));
+  };
+
   const updateTitle = (title: string) => {
     setSpace((prevState) => ({ ...prevState, title }));
   };
@@ -80,6 +84,7 @@ const SpaceContextProvider = ({ children }: IChildren) => {
         setLists,
         lists,
         addList,
+        removeList,
         setSpace,
         space,
       }}

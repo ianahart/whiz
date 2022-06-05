@@ -174,4 +174,5 @@ export interface ISpaceContext {
   addCardToList: (card: ICard) => void;
   removeCard: (card_id: number, list_id: number) => void;
   fetchSpace: (id: number, title: string) => void;
+  removeList: (id: number) => void;
 }

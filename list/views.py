@@ -1,4 +1,4 @@
-from django.core.exceptions import BadRequest, ObjectDoesNotExist
+from django.core.exceptions import BadRequest, ObjectDoesNotExist, PermissionDenied
 from django.db import DatabaseError
 from rest_framework import permissions
 from rest_framework.views import APIView
@@ -60,6 +60,22 @@ class CoordsAPIView(APIView):
 
 class DetailAPIView(APIView):
     permission_classes = [IsAuthenticated, AccountPermission, ]
+
+    def delete(self, request, pk=None):
+        try:
+
+            list = List.objects.get(pk=pk)
+            self.check_object_permissions(request, list.user)
+
+            list.delete()
+
+            return Response({
+
+            }, status=status.HTTP_204_NO_CONTENT)
+        except (PermissionDenied) as e:
+            return Response({
+                'error': 'You do not have permission for this action.'
+            }, status=status.HTTP_403_FORBIDDEN)
 
     def patch(self, request, pk=None):
         try:

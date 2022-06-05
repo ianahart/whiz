@@ -9,6 +9,7 @@ import { ICreateCardResponse, ICardsResponse } from '../../../../interfaces/resp
 import AddCard from './AddCard';
 import Card from './Card';
 import CardDetails from './CardDetails';
+import ListActions from './ListActions';
 
 export interface IListProps {
   list: IList;
@@ -26,6 +27,9 @@ const List = ({ list, controls }: IListProps) => {
   const [cards, setCards] = useState<ICard[]>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [activeCard, setActiveCard] = useState<null | number>(null);
+  const [listActionsOpen, setListActionsOpen] = useState(false);
+
+  const handleListActionsOpen = (bool: boolean) => setListActionsOpen(bool);
 
   const openModal = (id: number) => {
     setActiveCard(id);
@@ -164,7 +168,17 @@ const List = ({ list, controls }: IListProps) => {
         ) : (
           <div className="list-title-trigger">
             <p onClick={() => setIsListTitleEditing(true)}>{list.title}</p>
-            <BsThreeDots />
+            <div className="list-actions-container">
+              <div onClick={() => handleListActionsOpen(true)}>
+                <BsThreeDots />
+              </div>
+              {listActionsOpen && (
+                <ListActions
+                  listId={list.id}
+                  handleListActionsOpen={handleListActionsOpen}
+                />
+              )}
+            </div>
           </div>
         )}
       </div>
