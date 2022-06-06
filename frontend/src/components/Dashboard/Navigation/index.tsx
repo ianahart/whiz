@@ -1,12 +1,12 @@
 import { useState, useRef, useContext, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { BsSearch } from 'react-icons/bs';
 import { UserContext } from '../../../context/user';
 import { IUserContext } from '../../../interfaces';
 import '../../../styles/Navigation/Navigation.scss';
 import Avatar from './Avatar';
 import MenuWrapper from './Menus/MenuWrapper';
-import More from './Menus/More';
-
+import { namePath } from '../../../helpers/utils';
 const Navigation = () => {
   const { user } = useContext(UserContext) as IUserContext;
   const navigationRef = useRef<HTMLDivElement | null>(null);
@@ -31,11 +31,12 @@ const Navigation = () => {
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, []);
-
+  const name = namePath(user.full_name);
   return (
     <div ref={navigationRef} className="navigation-container">
-      <h2 className="nav-logo">Whiz</h2>
-      <More />
+      <Link to={`/${name}`}>
+        <h2 className="nav-logo">Whiz</h2>
+      </Link>
       <div className="navigation-left">
         <MenuWrapper />
       </div>

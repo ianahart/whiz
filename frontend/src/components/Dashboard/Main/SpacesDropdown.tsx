@@ -25,7 +25,7 @@ const SpacesDropdown = ({ type }: ISpacesDropdownProps) => {
       if (error instanceof AxiosError && error.response) {
       }
     }
-  }, []);
+  }, [type]);
 
   const paginate = async () => {
     try {

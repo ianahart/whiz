@@ -73,6 +73,10 @@ class SpaceManager(models.Manager):
         ).count()
         return True if count > 0 else False
 
+    def count(self, data: dict[str, str], user):
+        return Space.objects.all().filter(user_id=user).count()
+
+
     def create(self, data: dict[str, str], user):
         space = self.model()
 

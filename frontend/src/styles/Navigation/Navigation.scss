@@ -5,6 +5,9 @@
   background: var(--color-primary);
   width: 100%;
   padding: 0.1rem;
+  a {
+    text-decoration: none;
+  }
 }
 
 .nav-item-menu {

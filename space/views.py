@@ -70,7 +70,7 @@ class ListCreateAPIView(APIView):
 
             spaces = Space.objects.retreive_all(
                 request.user, request.query_params['page'],
-            request.query_params['type'])
+                request.query_params['type'])
 
             serializer = SpaceSerializer(spaces['spaces'], many=True)
 
@@ -93,6 +93,12 @@ class ListCreateAPIView(APIView):
                     'Background must be selected and title must be under 125 characters.')
 
             try:
+                num_of_spaces = Space.objects.count(request.data, request.user)
+
+                print(num_of_spaces)
+                if num_of_spaces >= 10:
+                    raise ValueError('You can have a maximum of 10 spaces.')
+
                 space = Space.objects.create(request.data, request.user)
                 if space is None:
                     raise ValueError('A space with this title already exists.')
