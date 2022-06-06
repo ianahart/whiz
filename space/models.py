@@ -1,4 +1,5 @@
 from datetime import datetime, timedelta
+from django.core.exceptions import ObjectDoesNotExist
 from django.db import models
 from django.core.paginator import Paginator
 from django.utils import timezone
@@ -76,7 +77,6 @@ class SpaceManager(models.Manager):
     def count(self, data: dict[str, str], user):
         return Space.objects.all().filter(user_id=user).count()
 
-
     def create(self, data: dict[str, str], user):
         space = self.model()
 
@@ -98,6 +98,20 @@ class SpaceManager(models.Manager):
         space.refresh_from_db()
 
         return space
+
+    def search(self, data, user: int):
+        try:
+            results = Space.objects.order_by(
+                '-created_at'
+            ).filter(
+                user_id=user
+            ).filter(
+                title__icontains=data['search_term'])
+            if len(results) == 0:
+                raise ObjectDoesNotExist
+            return results
+        except ObjectDoesNotExist as e:
+            return []
 
 
 class Space(models.Model):

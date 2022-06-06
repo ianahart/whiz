@@ -7,8 +7,38 @@ from rest_framework.permissions import IsAuthenticated
 from list.serializers import ListSerializer
 from space.models import Space
 from .services import Pexels
-from space.serializers import UpdateSpaceSerializer, CreateSpaceSerializer, SpaceSerializer
+from space.serializers import SearchSpaceSerializer, UpdateSpaceSerializer, CreateSpaceSerializer, SpaceSerializer
 from account.permissions import AccountPermission
+
+
+class SearchAPIView(APIView):
+    def post(self, request):
+        try:
+            serializer = SearchSpaceSerializer(
+                data=request.data)
+
+            if serializer.is_valid():
+                spaces = Space.objects.search(
+                    serializer.validated_data, request.user.id)
+
+                if spaces is not None and len(spaces) == 0:
+                    raise ObjectDoesNotExist('No results.')
+                space_serializer = SpaceSerializer(spaces, many=True)
+                return Response({
+                    'message': 'success',
+                    'results': space_serializer.data
+                }, status=status.HTTP_200_OK)
+
+            else:
+                return Response({
+                    'errors': serializer.errors
+                }, status=status.HTTP_400_BAD_REQUEST)
+
+        except (ObjectDoesNotExist, ) as e:
+            print(e)
+            return Response({
+                'errors': str(e)
+            }, status=status.HTTP_400_BAD_REQUEST)
 
 
 class DetailAPIView(APIView):

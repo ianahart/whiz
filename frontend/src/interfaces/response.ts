@@ -10,6 +10,11 @@ import {
   ICheckList,
 } from '.';
 
+export interface ISearchResponse {
+  message?: string;
+  results: ISpaceMin[];
+}
+
 export interface ICreateChecklistResponse {
   message?: string;
   checklist: ICheckList;

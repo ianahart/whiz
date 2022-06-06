@@ -1,5 +1,18 @@
 from rest_framework import serializers
 from space.models import Space
+import re
+
+
+class SearchSpaceSerializer(serializers.Serializer):
+    search_term = serializers.CharField()
+
+    def validate_search_term(self, data):
+        pattern = re.compile(r'^[\w ]+$')
+        match = re.fullmatch(pattern, data)
+        if not match:
+            raise serializers.ValidationError(
+                'Please use only letters, numbers and spaces')
+        return data
 
 
 class UpdateSpaceSerializer(serializers.ModelSerializer):
