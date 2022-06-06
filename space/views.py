@@ -69,7 +69,8 @@ class ListCreateAPIView(APIView):
                 raise ObjectDoesNotExist('Malformed url')
 
             spaces = Space.objects.retreive_all(
-                request.user, request.query_params['page'])
+                request.user, request.query_params['page'],
+            request.query_params['type'])
 
             serializer = SpaceSerializer(spaces['spaces'], many=True)
 

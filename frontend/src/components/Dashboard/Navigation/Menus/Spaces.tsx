@@ -17,7 +17,7 @@ const Spaces = () => {
       </div>
       {activeMenuItem === 'spaces' && (
         <Menu label="Spaces">
-          <SpacesDropdown />
+          <SpacesDropdown type="" />
         </Menu>
       )}
     </li>

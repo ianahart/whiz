@@ -2,6 +2,7 @@ import { useContext, useState } from 'react';
 import { BsChevronDown } from 'react-icons/bs';
 import { NavigationContext } from '../../../../context/navigation';
 import { INavigationContext } from '../../../../interfaces';
+import SpacesDropdown from '../../Main/SpacesDropdown';
 import Menu from './Menu';
 const Starred = () => {
   const { activeMenuItem, setActiveMenuItem } = useContext(
@@ -15,7 +16,7 @@ const Starred = () => {
       </div>
       {activeMenuItem === 'starred' && (
         <Menu label="Starred">
-          <p>hi im in the menu</p>
+          <SpacesDropdown type="starred" />
         </Menu>
       )}
     </li>

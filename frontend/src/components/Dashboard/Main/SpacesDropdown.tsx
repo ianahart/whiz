@@ -1,19 +1,23 @@
 import { useState, useEffect, useCallback } from 'react';
 import { AxiosError } from 'axios';
 import { Link } from 'react-router-dom';
-import '../../../styles/Navigation/Dropdowns/Space.scss';
+import '../../../styles/shared/Mixed.scss';
 import { http } from '../../../helpers/utils';
 import { ISpaceMin } from '../../../interfaces';
-import { ISpacesDropdownResponse } from '../../../interfaces/response';
+import { ISpacesResponse } from '../../../interfaces/response';
 
-const SpacesDropdown = () => {
+interface ISpacesDropdownProps {
+  type: string;
+}
+
+const SpacesDropdown = ({ type }: ISpacesDropdownProps) => {
   const [page, setPage] = useState(1);
   const [spaces, setSpaces] = useState<ISpaceMin[]>([]);
   const [hasNext, setHasNext] = useState(false);
   const [error, setError] = useState('');
   const fetchYourSpaces = useCallback(async () => {
     try {
-      const response = await http.get<ISpacesDropdownResponse>(`/spaces/?page=0`);
+      const response = await http.get<ISpacesResponse>(`/spaces/?page=0&type=${type}`);
       setPage(response.data.page);
       setSpaces(response.data.spaces);
       setHasNext(response.data.has_next);
@@ -28,7 +32,9 @@ const SpacesDropdown = () => {
       if (!hasNext) {
         return;
       }
-      const response = await http.get<ISpacesDropdownResponse>(`/spaces/?page=${page}`);
+      const response = await http.get<ISpacesResponse>(
+        `/spaces/?page=${page}&type=${type}`
+      );
       setPage(response.data.page);
       setHasNext(response.data.has_next);
       setSpaces((prevState) => [...prevState, ...response.data.spaces]);
@@ -44,21 +50,21 @@ const SpacesDropdown = () => {
   }, [fetchYourSpaces]);
 
   return (
-    <div className="spaces-dropdown-container">
+    <div className="dropdown-container">
       <div>
         {spaces.map((space) => {
           return (
             <Link to={`/spaces/${space.id}/${space.title}`} key={space.id}>
-              <div className="spaces-dropdown-item">
+              <div className="dropdown-item">
                 {space.has_background && space.thumbnail ? (
                   <img
-                    className="space-dropdown-image-background"
+                    className="dropdown-image-background"
                     src={space.thumbnail}
                     alt="space background"
                   />
                 ) : (
                   <div
-                    className="space-dropdown-color-background"
+                    className="dropdown-color-background"
                     style={{ background: space.color } as React.CSSProperties}
                   ></div>
                 )}
@@ -70,7 +76,7 @@ const SpacesDropdown = () => {
       </div>
       {error && <p className="spaces-dropdown-error">{error}</p>}
       {!error && hasNext && (
-        <div className="spaces-dropdown-btn-container">
+        <div className="dropdown-btn-container">
           <button onClick={paginate}>See more</button>
         </div>
       )}

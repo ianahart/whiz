@@ -1,3 +1,4 @@
+from datetime import datetime, timedelta
 from django.db import models
 from django.core.paginator import Paginator
 from django.utils import timezone
@@ -6,8 +7,25 @@ from account.models import CustomUser
 
 class SpaceManager(models.Manager):
 
-    def retreive_all(self, user: CustomUser, page: int):
-        objects = Space.objects.order_by('-id').all().filter(user_id=user.pk)
+    def retreive_all(self, user: CustomUser, page: int, type: str):
+        match type:
+            case 'starred':
+                objects = Space.objects.order_by(
+                    '-id'
+                ).filter(
+                    is_starred=True
+                ).filter(user_id=user.pk)
+            case 'recent':
+                objects = Space.objects.order_by(
+                    '-id').all().filter(
+                    user_id=user.pk
+                ).filter(
+                    updated_at__gte=datetime.now(
+                        tz=timezone.utc
+                    ) - timedelta(days=1))[0:3]
+            case _:
+                objects = Space.objects.order_by(
+                    '-id').all().filter(user_id=user.pk)
 
         p = Paginator(objects, 3)
 
@@ -43,6 +61,8 @@ class SpaceManager(models.Manager):
         for list in space.list_spaces.all():
             lists.append(list)
 
+        space.updated_at = timezone.now()
+        space.save()
         return {'space': space, 'lists': lists}
 
     def space_by_title(self, user: int, title: str):

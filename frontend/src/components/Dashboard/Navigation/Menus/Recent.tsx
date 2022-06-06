@@ -2,6 +2,8 @@ import { useContext } from 'react';
 import { BsChevronDown } from 'react-icons/bs';
 import { NavigationContext } from '../../../../context/navigation';
 import { INavigationContext } from '../../../../interfaces';
+import SpacesDropdown from '../../Main/SpacesDropdown';
+
 import Menu from './Menu';
 const Recent = () => {
   const { activeMenuItem, setActiveMenuItem } = useContext(
@@ -15,7 +17,7 @@ const Recent = () => {
       </div>
       {activeMenuItem === 'recent' && (
         <Menu label="Recent">
-          <p>hi im in the menu</p>
+          <SpacesDropdown type="recent" />
         </Menu>
       )}
     </li>

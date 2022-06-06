@@ -55,7 +55,7 @@ export interface IRetreiveSpaceResponse {
   lists: IList[];
 }
 
-export interface ISpacesDropdownResponse {
+export interface ISpacesResponse {
   message?: string;
   page: number;
   has_next: boolean;
