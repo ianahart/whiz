@@ -10,7 +10,13 @@ interface Props {
 const RequireGuest: React.FC<Props> = ({ children }): JSX.Element => {
   const { user } = useContext(UserContext) as IUserContext;
   const location = useLocation();
-  const guestRoutes = ['/sign-up', '/sign-in'];
+  const guestRoutes = [
+    '/',
+    '/sign-up',
+    '/sign-in',
+    '/forgot-password',
+    '/reset-password',
+  ];
   const storage = retrieveTokens();
   if (storage === undefined && guestRoutes.includes(location.pathname)) {
     return children;

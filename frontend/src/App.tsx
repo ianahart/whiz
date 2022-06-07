@@ -15,6 +15,8 @@ import RequireAuth from './components/Mixed/RequireAuth';
 import RequireGuest from './components/Mixed/RequireGuest';
 import WithAxios from './helpers/WithAxios';
 import Space from './pages/Space';
+import ForgotPassword from './pages/ForgotPassword';
+import ResetPassword from './pages/ResetPassword';
 const App = () => {
   const { setUser } = useContext(UserContext) as IUserContext;
   const storeUser = useCallback(async () => {
@@ -55,6 +57,23 @@ const App = () => {
                   element={
                     <RequireGuest>
                       <CreateAccount />
+                    </RequireGuest>
+                  }
+                />
+                <Route
+                  path="/forgot-password"
+                  element={
+                    <RequireGuest>
+                      <ForgotPassword />
+                    </RequireGuest>
+                  }
+                />
+
+                <Route
+                  path="/reset-password"
+                  element={
+                    <RequireGuest>
+                      <ResetPassword />
                     </RequireGuest>
                   }
                 />

@@ -110,6 +110,9 @@ const Login = () => {
             placeholder={form.password.placeholder}
           />
         </div>
+        <div className="login-forgot-password">
+          <Link to="/forgot-password">Forgot password?</Link>
+        </div>
         <div className="login-button-container">
           <button className="button" type="submit">
             Login

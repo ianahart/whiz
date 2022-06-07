@@ -21,10 +21,21 @@
   );
 }
 
+.login-forgot-password {
+  text-align: right;
+  margin: 1rem;
+  cursor: pointer;
+  a {
+    font-size: 0.8rem;
+    color: var(--color-primary);
+    text-decoration: none;
+  }
+}
+
 .login-form {
   padding-top: 5rem;
   width: 450px;
-  height: 550px;
+  min-height: 550px;
   margin: 10rem auto 3rem auto;
   background-color: #fff;
   border-radius: var(--border-radius-sm);

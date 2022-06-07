@@ -1,18 +1,59 @@
+from datetime import datetime, timedelta, date
+from django.core.exceptions import ObjectDoesNotExist
+from django.utils import timezone
+from django.utils.translation import gettext_lazy as _
+from django.contrib.auth.models import BaseUserManager, AbstractUser, PermissionsMixin
+from rest_framework_simplejwt.backends import TokenBackend
+from django.db import models, DatabaseError
+from django.contrib.auth import hashers
+from django.template.loader import render_to_string
+from rest_framework_simplejwt.tokens import RefreshToken
+from rest_framework_simplejwt.exceptions import TokenError
+from django.core.mail import EmailMessage
+from core import settings
 import logging
 logger = logging.getLogger('django')
-from rest_framework_simplejwt.exceptions import TokenError
-from rest_framework_simplejwt.tokens import RefreshToken
-from django.contrib.auth import hashers
-from django.db import models, DatabaseError
-from rest_framework_simplejwt.backends import TokenBackend
-from django.contrib.auth.models import BaseUserManager, AbstractUser, PermissionsMixin
-from django.utils.translation import gettext_lazy as _
-from django.utils import timezone
-from datetime import datetime, timedelta, date
+
 
 class CustomUserManager(BaseUserManager):
 
-    def create(self, email:str, password: str, **extra_fields):
+    def update_password(self, password: str, user_id: int):
+        user = CustomUser.objects.get(pk=user_id)
+        if hashers.check_password(password, user.password):
+            return {'type': 'error', 'error': 'Password must not be the same as old password.'}
+
+        user.password = hashers.make_password(password)
+        user.save()
+        return {'type': 'ok'}
+
+    def forgot_password(self, data):
+        try:
+            user = CustomUser.objects.filter(email=data['email']).first()
+            print(user)
+            if user is None:
+                raise ObjectDoesNotExist
+
+            token = RefreshToken.for_user(user)
+            context = {'user': user.full_name, 'uid': user.id, 'token': token}
+            message = render_to_string('forgot-password.html', context)
+            refresh = str(token)
+
+            mail = EmailMessage(
+                subject="Password reset",
+                body=message,
+                from_email=settings.EMAIL_SENDER,
+                to=[data['email']]
+            )
+            mail.content_subtype = 'html'
+            mail.send()
+
+            return {'type': 'ok', 'data': {'uid': user.id, 'token': refresh}}
+
+        except (ObjectDoesNotExist):
+            logger.error('Unable to send password reset email')
+            return {'type': 'error', 'data': 'Email address does not exist.'}
+
+    def create(self, email: str, password: str, **extra_fields):
         """
         Create and save a User with the given email and password.
         """
@@ -23,6 +64,7 @@ class CustomUserManager(BaseUserManager):
         user.set_password(password)
         user.save()
         return user
+
     def create_superuser(self, email: str, password: str, **extra_fields):
         """
         Create and save a SuperUser with the given email and password.
@@ -36,8 +78,6 @@ class CustomUserManager(BaseUserManager):
         if extra_fields.get('is_superuser') is not True:
             raise ValueError(_('Superuser must have is_superuser=True.'))
         return self.create(email, password, **extra_fields)
-
-
 
     def user_by_token(self, user: 'CustomUser', token: str):
         """
@@ -66,9 +106,6 @@ class CustomUserManager(BaseUserManager):
         except DatabaseError:
             logger.error('Unable to retrieve user by email.')
 
-
-
-
     def logout(self, data: dict[str, str | int]):
         """
             logout the user and blacklist their refresh token.
@@ -80,13 +117,13 @@ class CustomUserManager(BaseUserManager):
         token = RefreshToken(data['refresh_token'])
         token.blacklist()
 
-
     def login(self, validated_data: dict[str, str], user: 'CustomUser'):
         """
             login user and verify user, return an access and refresh token
         """
         try:
-            valid = hashers.check_password(validated_data['password'], user.password)
+            valid = hashers.check_password(
+                validated_data['password'], user.password)
 
             if not valid:
                 return {}
@@ -108,7 +145,6 @@ class CustomUserManager(BaseUserManager):
             logger.error('Unable to log user in.')
 
 
-
 class CustomUser(AbstractUser, PermissionsMixin):
     username = None
     logged_in = models.BooleanField(default=False)
@@ -121,14 +157,14 @@ class CustomUser(AbstractUser, PermissionsMixin):
     first_name = models.CharField(max_length=200, blank=True, null=True)
     last_name = models.CharField(max_length=200, blank=True, null=True)
     email = models.EmailField(_(
-                            'email address'),
-                              unique=True,
-                              blank=True,
-                              null=True,
-                              error_messages={'unique':
-                                  'A user with this email already exists.'
-                              }
-                              )
+        'email address'),
+        unique=True,
+        blank=True,
+        null=True,
+        error_messages={'unique':
+                        'A user with this email already exists.'
+                        }
+    )
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []
@@ -147,4 +183,3 @@ class CustomUser(AbstractUser, PermissionsMixin):
     @property
     def full_name(self):
         return f'{self.first_name} {self.last_name}'
-

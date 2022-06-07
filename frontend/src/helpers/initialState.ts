@@ -11,6 +11,11 @@ export const colors = [
   { id: 8, color: '#026963' },
 ];
 
+export const initialResetPasswordState = {
+  new_password: { value: '' },
+  confirm_password: { value: '' },
+};
+
 export const initialCardDetailsState = {
   color: '',
   label: '',

@@ -1,3 +1,8 @@
+export interface IPasswords {
+  new_password: { value: '' };
+  confirm_password: { value: '' };
+}
+
 export interface IList {
   id: number;
   space: number;
