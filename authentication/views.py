@@ -21,6 +21,8 @@ class ResetPasswordAPIView(APIView):
 
     def patch(self, request, pk=None):
         try:
+            if len(request.data['new_password']) == 0:
+                raise BadRequest('Please supply a new password.')
 
             result = PasswordReset.objects.reset_password(
                 data=request.data, user_id=pk)

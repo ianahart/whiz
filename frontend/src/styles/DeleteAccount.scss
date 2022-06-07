@@ -1,0 +1,86 @@
+.delete-account-container {
+  min-height: 100vh;
+  background-repeat: no-repeat;
+  background-size: cover;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  padding-top: 9rem;
+  background-image: linear-gradient(
+    to top right,
+    #d16ba5,
+    #cc66a7,
+    #c762aa,
+    #c15ead,
+    #bb5bb0,
+    #ae5fb7,
+    #a062bc,
+    #9166c1,
+    #786ec5,
+    #5e75c4,
+    #457ac0,
+    #2f7db9
+  );
+}
+
+.delete-account-content {
+  background: #fff;
+  border-radius: var(--border-radius-sm);
+  box-shadow: var(--box-shadow);
+  margin: 0 auto;
+  height: 100%;
+  width: 500px;
+  min-height: 300px;
+}
+
+.delete-account-title {
+  text-align: center;
+  h2 {
+    font-size: 2.4rem;
+    color: var(--color-text-light);
+    font-family: 'Bebas Neue', cursive;
+  }
+  p {
+    font-weight: 100;
+    color: var(--color-text-light);
+    width: 330px;
+    margin: 0 auto;
+  }
+}
+
+.delete-account-input-container {
+  display: flex;
+  justify-content: center;
+  margin: 3rem auto 0 auto;
+  input {
+    border-radius: var(--border-radius-sm);
+    border: none;
+    border: 1px solid var(--color-border);
+    width: 70%;
+    height: 35px;
+  }
+}
+
+.delete-account-btn-container {
+  display: flex;
+  justify-content: center;
+  margin: 1.5rem;
+  button {
+    width: 50%;
+    color: #fff;
+    background: var(--color-primary);
+    border: none;
+    cursor: pointer;
+    height: 35px;
+    border-radius: var(--border-radius-sm);
+    &:hover {
+      opacity: 0.8;
+    }
+  }
+}
+
+@media (max-width: 600px) {
+  .delete-account-content {
+    width: 90%;
+  }
+}

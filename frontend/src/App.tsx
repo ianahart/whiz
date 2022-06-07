@@ -17,6 +17,7 @@ import WithAxios from './helpers/WithAxios';
 import Space from './pages/Space';
 import ForgotPassword from './pages/ForgotPassword';
 import ResetPassword from './pages/ResetPassword';
+import DeleteAccount from './pages/DeleteAccount';
 const App = () => {
   const { setUser } = useContext(UserContext) as IUserContext;
   const storeUser = useCallback(async () => {
@@ -77,6 +78,16 @@ const App = () => {
                     </RequireGuest>
                   }
                 />
+
+                <Route
+                  path="/delete-account"
+                  element={
+                    <RequireAuth>
+                      <DeleteAccount />
+                    </RequireAuth>
+                  }
+                />
+
                 <Route
                   path="/:name"
                   element={

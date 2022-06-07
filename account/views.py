@@ -5,6 +5,7 @@ from django.db import DatabaseError
 from django.contrib.auth.hashers import check_password
 from rest_framework.decorators import authentication_classes, permission_classes
 from rest_framework.views import APIView
+from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 from rest_framework_simplejwt.exceptions import TokenError, InvalidToken
 from rest_framework import status
@@ -15,6 +16,32 @@ from account.models import CustomUser
 from account.permissions import AccountPermission
 from account.serializers import UserSerializer
 
+
+class DetailAPIView(APIView):
+    permission_classes = [IsAuthenticated, AccountPermission, ]
+
+    def delete(self, request, pk=None):
+
+        try:
+            user = CustomUser.objects.get(pk=pk)
+            if user:
+                self.check_object_permissions(request, user)
+
+                refresh_token = RefreshToken(request.query_params['token'])
+                refresh_token.blacklist()
+
+                user.delete()
+
+                return Response({
+                    'message': 'success'
+                }, status=status.HTTP_200_OK)
+            else:
+                raise BadRequest(
+                    'Something went wrong. Please try again soon.')
+        except BadRequest as e:
+            return Response({
+                            'errors': str(e)
+                            }, status=status.HTTP_400_BAD_REQUEST)
 
 
 class RetreiveUserAPIView(APIView):
@@ -32,15 +59,12 @@ class RetreiveUserAPIView(APIView):
             serializer = UserSerializer(user)
             self.check_object_permissions(request, user)
             return Response({
-                                'message': 'success',
-                                'user': serializer.data
-                            }, status=status.HTTP_200_OK)
+                'message': 'success',
+                'user': serializer.data
+            }, status=status.HTTP_200_OK)
         except (BadRequest, ObjectDoesNotExist, ) as e:
-            status_code, error =400, ''
+            status_code, error = 400, ''
 
             return Response({
-                                'errors': str(e)
-                            }, status=status_code)
-
-
-
+                'errors': str(e)
+            }, status=status_code)

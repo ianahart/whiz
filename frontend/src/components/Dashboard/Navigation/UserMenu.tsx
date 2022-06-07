@@ -3,6 +3,7 @@ import { AiOutlineClose } from 'react-icons/ai';
 import { IUserContext } from '../../../interfaces';
 import { UserContext } from '../../../context/user';
 import Logout from '../../Auth/Logout';
+import { Link } from 'react-router-dom';
 
 interface IUserMenuProps {
   closeUserMenu: () => void;
@@ -49,6 +50,9 @@ const UserMenu = ({ closeUserMenu }: IUserMenuProps) => {
       </header>
       <div className="user-menu-column">
         <Logout />
+      </div>
+      <div className="user-menu-column delete-account">
+        <Link to="/delete-account">Delete Account</Link>
       </div>
     </div>
   );
