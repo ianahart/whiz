@@ -1,4 +1,5 @@
 import { useState, useRef, useContext } from 'react';
+import { DraggableProvided } from 'react-beautiful-dnd';
 import { AiOutlineClockCircle, AiOutlineClose } from 'react-icons/ai';
 import { GoPencil } from 'react-icons/go';
 import { SpaceContext } from '../../../../context/space';
@@ -7,9 +8,10 @@ export interface ICardProps {
   card: ICard;
   openModal: (id: number) => void;
   editCardTitle: (event: React.ChangeEvent<HTMLInputElement>, id: number) => void;
+  provided: DraggableProvided;
 }
 
-const Card = ({ openModal, card, editCardTitle }: ICardProps) => {
+const Card = ({ openModal, card, editCardTitle, provided }: ICardProps) => {
   const { removeCard } = useContext(SpaceContext) as ISpaceContext;
   const [isEditIcon, setIsEditIcon] = useState(false);
   const [isTitleInput, setIsTitleInput] = useState(false);
@@ -21,7 +23,12 @@ const Card = ({ openModal, card, editCardTitle }: ICardProps) => {
   };
 
   return (
-    <div ref={nodeRef} className="list-card-container">
+    <div
+      ref={provided.innerRef}
+      {...provided.draggableProps}
+      {...provided.dragHandleProps}
+      className="list-card-container"
+    >
       <div style={{ position: 'relative' }} className="list-card-label-column">
         <p
           className="list-card-label"

@@ -1,7 +1,7 @@
 import { AxiosError } from 'axios';
 import { useCallback, useState, useEffect, useRef, useContext } from 'react';
 import { BsThreeDots } from 'react-icons/bs';
-import { DragControls, Reorder } from 'framer-motion';
+import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import { SpaceContext } from '../../../../context/space';
 import { http } from '../../../../helpers/utils';
 import { ICard, IList, ISpaceContext } from '../../../../interfaces';
@@ -10,13 +10,14 @@ import AddCard from './AddCard';
 import Card from './Card';
 import CardDetails from './CardDetails';
 import ListActions from './ListActions';
+import { DraggableProvided } from 'react-beautiful-dnd';
 
 export interface IListProps {
   list: IList;
-  controls: DragControls;
+  provided: DraggableProvided;
 }
 
-const List = ({ list, controls }: IListProps) => {
+const List = ({ list, provided }: IListProps) => {
   const nodeRef = useRef(null);
   const { updateListTitle, addCardToList } = useContext(SpaceContext) as ISpaceContext;
   const [isListTitleEditing, setIsListTitleEditing] = useState(false);
@@ -147,8 +148,32 @@ const List = ({ list, controls }: IListProps) => {
     }
   };
 
+  const handleOnDragEnd = async (result: any) => {
+    try {
+      if (!result.destination) return;
+
+      const items = Array.from(cards);
+      const [reorderedItem] = items.splice(result.source.index, 1);
+      reorderedItem.index = result.destination.index;
+      items.splice(result.destination.index, 0, reorderedItem);
+      setCards(items);
+      await http.post('/cards/reorder/', {
+        cards: items.map(({ id }, index) => ({ id, index })),
+      });
+    } catch (err: unknown | AxiosError) {
+      if (err instanceof AxiosError && err.response) {
+        console.log(err.response);
+      }
+    }
+  };
+
   return (
-    <div ref={nodeRef} className="list-container">
+    <div
+      ref={provided.innerRef}
+      {...provided.draggableProps}
+      {...provided.dragHandleProps}
+      className="list-container"
+    >
       {isModalOpen && (
         <div className="list-modal">
           <CardDetails
@@ -160,7 +185,7 @@ const List = ({ list, controls }: IListProps) => {
         </div>
       )}
 
-      <div onPointerDown={(e) => controls.start(e)} className="list-title">
+      <div className="list-title">
         {isListTitleEditing ? (
           <div className="list-title-input-container">
             <input onBlur={editListTitle} />
@@ -183,15 +208,35 @@ const List = ({ list, controls }: IListProps) => {
         )}
       </div>
       {cards.length > 0 && (
-        <Reorder.Group axis="y" layoutScroll values={cards} onReorder={setCards}>
-          {cards.map((card) => {
-            return (
-              <Reorder.Item key={card.id} value={card}>
-                <Card editCardTitle={editCardTitle} card={card} openModal={openModal} />
-              </Reorder.Item>
-            );
-          })}
-        </Reorder.Group>
+        <DragDropContext onDragEnd={handleOnDragEnd}>
+          <Droppable droppableId="lists" direction="vertical">
+            {(provided) => (
+              <div {...provided.droppableProps} ref={provided.innerRef}>
+                {' '}
+                {cards.map((card, index) => {
+                  return (
+                    <Draggable
+                      key={card.id}
+                      draggableId={card.id.toString()}
+                      index={index}
+                    >
+                      {(provided) => (
+                        <Card
+                          provided={provided}
+                          key={card.id}
+                          editCardTitle={editCardTitle}
+                          card={card}
+                          openModal={openModal}
+                        />
+                      )}
+                    </Draggable>
+                  );
+                })}{' '}
+                {provided.placeholder}
+              </div>
+            )}
+          </Droppable>
+        </DragDropContext>
       )}
 
       <AddCard

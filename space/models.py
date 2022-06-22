@@ -38,7 +38,6 @@ class SpaceManager(models.Manager):
         return {'page': next_page, 'next_page': cur_page.has_next(), 'spaces': spaces}
 
     def update(self, pk: int, **kwargs):
-        print(kwargs)
         space = Space.objects.filter(
             pk=pk
         ).first()
@@ -59,7 +58,7 @@ class SpaceManager(models.Manager):
             return None
 
         lists = []
-        for list in space.list_spaces.all():
+        for list in space.list_spaces.all().order_by('index'):
             lists.append(list)
 
         space.updated_at = timezone.now()

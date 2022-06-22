@@ -60,6 +60,7 @@ class CardSerializer(serializers.ModelSerializer):
                   'list',
                   'user',
                   'id',
+                  'index',
                   'date_range',
                   'start_date',
                   'end_date',

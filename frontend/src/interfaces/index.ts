@@ -10,6 +10,7 @@ export interface IList {
   cards: ICard[];
   user: number;
   x_coordinate: number;
+  index: number;
   y_coordinate: number;
 }
 
@@ -23,6 +24,7 @@ export interface ICard {
   start_date: Date;
   end_date: Date;
   details: string;
+  index: number;
   date_range: string;
 }
 

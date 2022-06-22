@@ -1,11 +1,20 @@
 from django.db import models
-from typing import Optional, Union
+from typing import Optional, Union, List
 from django.utils import timezone
 from account.models import CustomUser
 from space.models import Space
 
 
 class ListManager(models.Manager):
+
+    def reorder(self, data: List[dict[str, int]]):
+
+        for item in data:
+            id, x_coordinate = item.values()
+            list = List.objects.get(pk=id)
+
+            list.x_coordinate = x_coordinate
+            list.save()
 
     def update_coords(self, data, pk: int):
         list = List.objects.get(pk=pk)
@@ -65,6 +74,7 @@ class List(models.Model):
 
     created_at = models.DateTimeField(default=timezone.now)
     updated_at = models.DateTimeField(default=timezone.now)
+    index = models.IntegerField(blank=True, null=True)
     x_coordinate = models.IntegerField(default=0)
     y_coordinate = models.IntegerField(default=0)
     title = models.CharField(max_length=75, blank=True, null=True)

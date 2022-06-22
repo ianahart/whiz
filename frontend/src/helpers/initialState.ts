@@ -23,6 +23,7 @@ export const initialCardDetailsState = {
   text: '',
   user: 0,
   id: 0,
+  index: 0,
   start_date: new Date(),
   end_date: new Date(),
   details: '',

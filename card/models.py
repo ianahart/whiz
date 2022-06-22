@@ -1,4 +1,5 @@
 import logging
+from typing import List
 from django.db import models
 from django.utils import timezone
 from datetime import timezone as tz, datetime, timedelta
@@ -6,6 +7,12 @@ logger = logging.getLogger('django')
 
 
 class CardManager(models.Manager):
+    def reorder(self, data: List[dict[str, int]]):
+        for item in data:
+            id, index = item.values()
+            card = Card.objects.get(pk=id)
+            card.index = index
+            card.save()
 
     def move(self, pk: int, data):
         card = Card.objects.get(pk=pk)
@@ -31,7 +38,7 @@ class CardManager(models.Manager):
         return f'{range_start} - {range_end} {year}'
 
     def retreive_all(self, pk=None):
-        cards = Card.objects.all().filter(list_id=pk)
+        cards = Card.objects.all().order_by('index').filter(list_id=pk)
         for card in cards:
             card.date_range = self.__make_date_range(
                 card.start_date, card.end_date)
@@ -58,10 +65,8 @@ class CardManager(models.Manager):
         now, msg = datetime.now(timezone.utc), ''
         diff = now - card.created_at
         hrs = round(diff.seconds / 3600)
-        print(hrs)
         try:
             msg = str(diff).split(',')[0]
-            print(msg)
             if 'day' in msg:
                 return f'{msg} ago.'
         except IndexError:
@@ -98,6 +103,7 @@ class Card(models.Model):
     label = models.CharField(max_length=75, blank=True, null=True)
     text = models.CharField(max_length=75, blank=True, null=True)
     color = models.CharField(max_length=32, blank=True, null=True)
+    index = models.IntegerField(default=0, blank=True, null=True)
     details = models.TextField(max_length=500, blank=True, null=True)
     start_date = models.DateTimeField(default=timezone.now)
     end_date = models.DateTimeField(default=timezone.now)

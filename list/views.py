@@ -6,10 +6,32 @@ from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from card.serializers import CardSerializer
-from list.serializers import CreateListSerializer, ListSerializer, UpdateListSerializer, UpdateCoordSerializer
+from list.serializers import ReorderListSerializer, CreateListSerializer, ListSerializer, UpdateListSerializer, UpdateCoordSerializer
 from list.models import List
 from card.models import Card
 from account.permissions import AccountPermission
+
+
+class ReorderAPIView(APIView):
+    permission_classes = [IsAuthenticated, ]
+
+    def post(self, request):
+        try:
+            serializer = ReorderListSerializer(
+                data=request.data['lists'], many=True)
+            serializer.is_valid(raise_exception=True)
+            if serializer.validated_data:
+                List.objects.reorder(serializer.validated_data)
+
+            return Response({
+                'message': 'success'
+            }, status=status.HTTP_200_OK)
+
+        except (Exception, BadRequest) as e:
+            print(e)
+            return Response({
+                            'message': 'error'
+                            }, status=status.HTTP_400_BAD_REQUEST)
 
 
 class ListCardsAPIView(APIView):

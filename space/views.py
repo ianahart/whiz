@@ -35,7 +35,6 @@ class SearchAPIView(APIView):
                 }, status=status.HTTP_400_BAD_REQUEST)
 
         except (ObjectDoesNotExist, ) as e:
-            print(e)
             return Response({
                 'errors': str(e)
             }, status=status.HTTP_400_BAD_REQUEST)
@@ -43,6 +42,21 @@ class SearchAPIView(APIView):
 
 class DetailAPIView(APIView):
     permission_classes = [IsAuthenticated, AccountPermission, ]
+
+    def delete(self, request, pk=None):
+        try:
+            space = Space.objects.get(pk=pk)
+            self.check_object_permissions(request, space.user)
+
+            space.delete()
+
+            return Response({
+                            }, status=status.HTTP_204_NO_CONTENT)
+        except (Exception, BadRequest, ):
+            return Response({
+                            'message': 'something went wrong.'
+                            }, status=status.HTTP_400_BAD_REQUEST)
+
 
     def patch(self, request, pk=None):
         try:

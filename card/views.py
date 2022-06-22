@@ -10,6 +10,30 @@ from card.models import Card
 from account.permissions import AccountPermission
 
 
+
+
+class ReorderAPIView(APIView):
+    permission_classes = [IsAuthenticated, ]
+
+    def post(self, request):
+        try:
+            Card.objects.reorder(request.data['cards'])
+
+            return Response({
+                'message': 'success'
+            }, status=status.HTTP_200_OK)
+
+        except (Exception, BadRequest) as e:
+            print(e)
+            return Response({
+                            'message': 'error'
+                            }, status=status.HTTP_400_BAD_REQUEST)
+
+
+
+
+
+
 class MoveCardAPIView(APIView):
     permissions = [IsAuthenticated, AccountPermission, ]
 

@@ -3,7 +3,7 @@ import { AiOutlineClose, AiOutlinePlus, AiOutlineStar } from 'react-icons/ai';
 import { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../../../styles/Workspace.scss';
-import { http } from '../../../helpers/utils';
+import { http, namePath } from '../../../helpers/utils';
 import { UserContext } from '../../../context/user';
 import { ISpaceContext, IUserContext } from '../../../interfaces/';
 import { SpaceContext } from '../../../context/space';
@@ -20,7 +20,9 @@ const WorkSpace = () => {
   const [listTitle, setListTitle] = useState('');
   const [workSpaceError, setWorkSpaceError] = useState('');
   const [isTitleEditing, setIsTitleEditing] = useState(false);
+  const [isWarningOpen, setIsWarningOpen] = useState(false);
 
+  const name = namePath(user.full_name);
   const handleOnChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setListTitle(event.target.value);
   };
@@ -40,6 +42,7 @@ const WorkSpace = () => {
       const response = await http.patch(`/spaces/${space.id}/`, data);
 
       setIsTitleEditing(false);
+      setIsWarningOpen(false);
       navigate(`/spaces/${space.id}/${event.target.value}`);
     } catch (error: unknown | AxiosError) {
       if (error instanceof AxiosError && error.response) {
@@ -69,9 +72,46 @@ const WorkSpace = () => {
     }
   };
 
+  const deleteSpace = async (event: React.MouseEvent<HTMLButtonElement>) => {
+    try {
+      event.stopPropagation();
+      await http.delete(`/spaces/${space.id}/`);
+      navigate(`/${name}`);
+    } catch (error: unknown | AxiosError) {
+      if (error instanceof AxiosError && error.response) {
+        return;
+      }
+    }
+  };
+
+  const openWarning = (event: React.MouseEvent<HTMLDivElement>) => {
+    event.stopPropagation();
+    setIsWarningOpen(true);
+  };
+
+  const cancelDeleteSpace = (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.stopPropagation();
+    setIsWarningOpen(false);
+  };
   return (
     <>
       <div className="workspace-add-list-container">
+        <div className="space">
+          {!isWarningOpen && (
+            <div className="space-warning-trigger" onClick={openWarning}>
+              <AiOutlineClose />
+            </div>
+          )}
+          {isWarningOpen && (
+            <div className="space-warning">
+              <p>Removing this space will in turn remove it's lists and cards.</p>
+              <div className="space-warning-btn-container">
+                <button onClick={deleteSpace}>Delete</button>
+                <button onClick={cancelDeleteSpace}>Cancel</button>
+              </div>
+            </div>
+          )}
+        </div>
         <div
           onClick={() => setIsAddListOpen(true)}
           className="workspace-add-btn-container"

@@ -4,6 +4,14 @@ from card.serializers import CardSerializer
 from list.models import List
 
 
+class ReorderListSerializer(serializers.ModelSerializer):
+    id = serializers.IntegerField()
+
+    class Meta:
+        model = List
+        fields = ('id', 'x_coordinate', )
+
+
 class UpdateCoordSerializer(serializers.ModelSerializer):
     class Meta:
         model = List
