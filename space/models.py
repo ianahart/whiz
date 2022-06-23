@@ -58,7 +58,7 @@ class SpaceManager(models.Manager):
             return None
 
         lists = []
-         for list in space.list_spaces.all().order_by('index'):
+        for list in space.list_spaces.all().order_by('x_coordinate'):
             lists.append(list)
 
         space.updated_at = timezone.now()
