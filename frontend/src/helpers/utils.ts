@@ -2,7 +2,7 @@ import axios from 'axios';
 
 export const http = axios.create({
   // Change in production
-  baseURL: 'http://localhost:3000/api/v1/',
+  baseURL: 'https://hart-whiz.netlify.app/api/v1/',
 });
 
 export const makePossesiveName = (name: string) => {
