@@ -4,7 +4,8 @@ from django.db import models
 from django.core.paginator import Paginator
 from django.utils import timezone
 from account.models import CustomUser
-from account.models import List
+from list.models import List
+
 
 class SpaceManager(models.Manager):
 
@@ -58,11 +59,10 @@ class SpaceManager(models.Manager):
             return None
 
         #lists = []
-        #for list in space.list_spaces.all().order_by('index'):
+        # for list in space.list_spaces.all().order_by('index'):
         #    lists.append(list)
 
         lists = List.objects.all().order_by('index').filter(space_id=space.id)
-
 
         space.updated_at = timezone.now()
         space.save()
