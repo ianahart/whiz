@@ -15,7 +15,7 @@ const UserContextProvider = ({ children }: IChildren) => {
   const logout = () => {
     localStorage.removeItem('tokens');
     setUser(initialUserState);
-    setTokens(initialTokenState);
+    setTokens({ refresh_token: '', access_token: '' });
   };
 
   const syncTokens = (tokens: ITokens) => {

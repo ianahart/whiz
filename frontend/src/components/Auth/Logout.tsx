@@ -6,7 +6,7 @@ import { http } from '../../helpers/utils';
 import { initialSpaceState } from '../../helpers/initialState';
 import { SpaceContext } from '../../context/space';
 const Logout = () => {
-  const { user, tokens, logout } = useContext(UserContext) as IUserContext;
+  const { user, setTokens, tokens, logout } = useContext(UserContext) as IUserContext;
   const { setSpace, setLists } = useContext(SpaceContext) as ISpaceContext;
   const [isLoaded, setIsLoaded] = useState(false);
 
@@ -25,6 +25,8 @@ const Logout = () => {
       });
       setSpace(initialSpaceState);
       setLists([]);
+      setTokens({ refresh_token: '', access_token: '' });
+
       setIsLoaded(true);
     } catch (error: unknown | AxiosError) {
       if (error instanceof AxiosError && error.response) {
